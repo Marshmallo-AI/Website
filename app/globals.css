@@ -1,0 +1,252 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  background: #ffffff;
+  color: #1a1a1a;
+  font-family: 'Space Mono', monospace;
+}
+
+/* Main 3D container - fixed background */
+.retro-box {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Grid on floor */
+.grid-floor {
+  position: absolute;
+  bottom: 0;
+  left: -100%;
+  right: -100%;
+  height: 45%;
+  background-image:
+    linear-gradient(#000 1px, transparent 1px),
+    linear-gradient(90deg, #000 1px, transparent 1px);
+  background-size: 60px 60px;
+  transform: perspective(400px) rotateX(70deg);
+  transform-origin: center top;
+  opacity: 0.12;
+}
+
+/* Grid on ceiling */
+.grid-ceiling {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  right: -100%;
+  height: 45%;
+  background-image:
+    linear-gradient(#000 1px, transparent 1px),
+    linear-gradient(90deg, #000 1px, transparent 1px);
+  background-size: 60px 60px;
+  transform: perspective(400px) rotateX(-70deg);
+  transform-origin: center bottom;
+  opacity: 0.08;
+}
+
+/* Grid on left wall */
+.grid-left {
+  position: absolute;
+  top: -100%;
+  bottom: -100%;
+  left: 0;
+  width: 40%;
+  background-image:
+    linear-gradient(#000 1px, transparent 1px),
+    linear-gradient(90deg, #000 1px, transparent 1px);
+  background-size: 60px 60px;
+  transform: perspective(400px) rotateY(70deg);
+  transform-origin: right center;
+  opacity: 0.1;
+}
+
+/* Grid on right wall */
+.grid-right {
+  position: absolute;
+  top: -100%;
+  bottom: -100%;
+  right: 0;
+  width: 40%;
+  background-image:
+    linear-gradient(#000 1px, transparent 1px),
+    linear-gradient(90deg, #000 1px, transparent 1px);
+  background-size: 60px 60px;
+  transform: perspective(400px) rotateY(-70deg);
+  transform-origin: left center;
+  opacity: 0.1;
+}
+
+/* Border frame - fixed */
+.frame-border {
+  position: fixed;
+  background: #000;
+  z-index: 50;
+}
+
+.frame-top {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+}
+
+.frame-bottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+}
+
+.frame-left {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 1px;
+}
+
+.frame-right {
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 1px;
+}
+
+/* Corner accents - fixed */
+.corner {
+  position: fixed;
+  z-index: 51;
+}
+
+.corner-tl {
+  top: 0;
+  left: 0;
+  width: 80px;
+  height: 80px;
+  border-top: 1px solid #000;
+  border-left: 1px solid #000;
+}
+
+.corner-tr {
+  top: 0;
+  right: 0;
+  width: 80px;
+  height: 80px;
+  border-top: 1px solid #000;
+  border-right: 1px solid #000;
+}
+
+.corner-bl {
+  bottom: 0;
+  left: 0;
+  width: 80px;
+  height: 80px;
+  border-bottom: 1px solid #000;
+  border-left: 1px solid #000;
+}
+
+.corner-br {
+  bottom: 0;
+  right: 0;
+  width: 80px;
+  height: 80px;
+  border-bottom: 1px solid #000;
+  border-right: 1px solid #000;
+}
+
+/* Diagonal lines from corners - fixed */
+.diagonal {
+  position: fixed;
+  width: 1px;
+  background: #000;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.diag-tl {
+  top: 0;
+  left: 0;
+  height: 35vh;
+  transform: rotate(35deg);
+  transform-origin: top left;
+}
+
+.diag-tr {
+  top: 0;
+  right: 0;
+  height: 35vh;
+  transform: rotate(-35deg);
+  transform-origin: top right;
+}
+
+.diag-bl {
+  bottom: 0;
+  left: 0;
+  height: 35vh;
+  transform: rotate(-35deg);
+  transform-origin: bottom left;
+}
+
+.diag-br {
+  bottom: 0;
+  right: 0;
+  height: 35vh;
+  transform: rotate(35deg);
+  transform-origin: bottom right;
+}
+
+/* Button */
+.btn-retro {
+  font-family: 'Space Mono', monospace;
+  background: #000;
+  color: #fff;
+  border: 1px solid #000;
+  transition: all 0.2s ease;
+}
+
+.btn-retro:hover {
+  background: #fff;
+  color: #000;
+}
+
+::selection {
+  background: #000;
+  color: #fff;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
