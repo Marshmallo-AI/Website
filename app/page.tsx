@@ -1,125 +1,635 @@
 'use client';
 
+import { useRef, useState, useEffect } from 'react';
 import Image from "next/image";
 import Link from "next/link";
+import { 
+  Typography, 
+  Space, 
+  Button, 
+  Flex,
+  Layout,
+  Tag,
+} from 'antd';
+import { 
+  LinkedinOutlined, 
+  XOutlined, 
+  LeftOutlined,
+  RightOutlined,
+  EyeOutlined,
+  EditOutlined,
+  ExperimentOutlined,
+  LineChartOutlined
+} from '@ant-design/icons';
 
-// Icons as SVG components for cleaner code
-const EyeIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-    <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-  </svg>
-);
+const { Title, Text, Paragraph } = Typography;
+const { Header, Content, Footer } = Layout;
 
-const EditIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-  </svg>
-);
+interface TeamMember {
+  name: string;
+  role: string;
+  company?: string;
+  image: string;
+  bio: string;
+  linkedin: string;
+  twitter: string;
+}
 
-const BeakerIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 1-6.23.693L5 15.3m14.8 0 .105 1.158a2.25 2.25 0 0 1-1.836 2.423l-.465.07a21.026 21.026 0 0 1-6.408 0l-.465-.07a2.25 2.25 0 0 1-1.836-2.423l.105-1.158" />
-  </svg>
-);
-
-const ChartIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
-  </svg>
-);
-
-const ArrowRightIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
-    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-  </svg>
-);
-
-const LinkedInIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-    <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"/>
-  </svg>
-);
-
-const XIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
-    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-  </svg>
-);
-
-const features = [
-  {
-    icon: <EyeIcon />,
-    title: "Trajectory Observability & Rewards",
-    subtitle: "Understand how your agents are behaving",
-    description: "Capture complete agent trajectories, including actions, tool calls, reasoning steps, and outcomes. These trajectories are evaluated and rewarded, allowing the right behaviours to be reinforced and failures to be identified."
-  },
-  {
-    icon: <EditIcon />,
-    title: "Editable Learnings",
-    subtitle: "Control and steer how your agents behave",
-    description: "Convert your agent trajectories and rewards into structured learnings that can be viewed, edited and approved by humans. Full control over what your agents learn from each interaction."
-  },
-  {
-    icon: <BeakerIcon />,
-    title: "Simulation Environment",
-    subtitle: "Compare and choose the right model",
-    description: "Benchmark models using your trajectories, comparing performance, cost, and efficiency across workflows. Make data-driven decisions about model selection."
-  },
-  {
-    icon: <ChartIcon />,
-    title: "Consistency & Efficiency Metrics",
-    subtitle: "Monitor how your agents are improving",
-    description: "Track consistency and token efficiency so teams can see how their agents are performing over time with experience. Measure real improvements, not just outputs."
-  }
-];
-
-const team = [
+const team: TeamMember[] = [
   {
     name: "Gaby Haffner",
     role: "CEO",
-    initials: "GH",
-    bio: "Commercial co-founder with a track record of enterprise GTM and platform commercialisation. Led productisation of internal infrastructure into white-labeled enterprise platform at Farfetch. Previously advised Fortune 500 companies at Monitor Deloitte and EY.",
+    company: "Ex-Farfetch, Monitor Deloitte",
+    image: "/team/nitin.jpeg",
+    bio: "Commercial co-founder with a track record of enterprise GTM and platform commercialisation. At Farfetch, led productisation of internal infrastructure into white-labeled enterprise platform used by global luxury houses including Chanel.",
     linkedin: "#",
-    twitter: "#"
+    twitter: "#",
   },
   {
     name: "Aman Jaglan",
     role: "CTO",
-    initials: "AJ",
-    bio: "Technical co-founder with deep expertise in ML, deep learning, and reinforcement learning. Previously built production systems for enterprise clients. Published research in continual learning and developed open-source training frameworks.",
+    company: "ML Research, Ex-Protiviti",
+    image: "/team/nitin.jpeg",
+    bio: "Technical co-founder with deep expertise in ML, deep learning, and reinforcement learning. Published research in continual learning, developed open-source training frameworks, and built models outperforming state-of-the-art baselines.",
     linkedin: "#",
-    twitter: "#"
+    twitter: "#",
   },
   {
     name: "Michelangelo Naim",
     role: "Founding Researcher",
-    initials: "MN",
-    bio: "PhD in theoretical and computational neuroscience from MIT and Weizmann Institute. Doctoral research on 'Episodic Memory from First Principles.' Former research scientist at Basis. First-principles understanding of memory and learning.",
+    company: "PhD MIT, Weizmann Institute",
+    image: "/team/nitin.jpeg",
+    bio: "PhD in theoretical and computational neuroscience from MIT and the Weizmann Institute. Doctoral research focused on 'Episodic Memory from First Principles,' exploring how intelligent systems store and retrieve experience over time.",
     linkedin: "#",
     twitter: "#"
   },
   {
     name: "Vishnu Arun",
     role: "Founding ML Engineer",
-    initials: "VA",
-    bio: "Machine learning engineer at Shopify with prior experience at Jovian (YC-backed). Strong background in data engineering, model development, and system-level ML design. Technical writer with over 270k readers on Medium.",
+    company: "Shopify, YC-backed Jovian",
+    image: "/team/nitin.jpeg",
+    bio: "Machine learning engineer at Shopify with prior experience at Jovian, a YC-backed company. Strong background in data engineering, model development, and system-level ML design. Technical writer with over 270k readers on Medium.",
     linkedin: "#",
     twitter: "#"
   },
   {
     name: "Nitin Kumar",
     role: "Founding Software Engineer",
-    initials: "NK",
-    bio: "Senior full-stack engineer at Deel, previously at Razorpay. Core maintainer of Webpack and ESLint, used by 100M+ developers globally. Regular speaker at JSConf India, React India, and React Day Berlin.",
+    company: "Deel, Razorpay, Webpack Core",
+    image: "/team/nitin.jpeg",
+    bio: "Senior full-stack engineer at Deel, previously at Razorpay. Core maintainer in the JavaScript ecosystem, contributing to Webpack and ESLint used by over 100M developers globally. Regular conference speaker at JSConf and React conferences.",
     linkedin: "#",
     twitter: "#"
-  }
+  },
 ];
 
-export default function Home() {
+// Features data
+const features = [
+  {
+    id: 'observe',
+    icon: EyeOutlined,
+    label: "Observe",
+    title: "Trajectory Observability & Rewards",
+    tagline: "Understand how your agents are behaving",
+    description: "Capture complete agent trajectories, including actions, tool calls, reasoning steps, and outcomes. These trajectories are evaluated and rewarded, allowing the right behaviours to be reinforced and failures to be identified.",
+    color: "#c4a7ff",
+    highlights: ["Full trajectory capture", "Automatic evaluation", "Reward signals", "Failure detection"],
+  },
+  {
+    id: 'learn',
+    icon: EditOutlined,
+    label: "Learn",
+    title: "Editable Learnings",
+    tagline: "Control and steer how your agents behave",
+    description: "Convert your agent trajectories and rewards into structured learnings that can be viewed, edited and approved by humans. Full control over what your agents learn from each interaction.",
+    color: "#7dd3fc",
+    highlights: ["Human-in-the-loop", "Structured learnings", "Edit & approve", "Version control"],
+  },
+  {
+    id: 'simulate',
+    icon: ExperimentOutlined,
+    label: "Simulate",
+    title: "Simulation Environment",
+    tagline: "Compare and choose the right model",
+    description: "Benchmark models using your trajectories, comparing performance, cost, and efficiency across workflows. Make data-driven decisions about model selection.",
+    color: "#c4a7ff",
+    highlights: ["Model benchmarking", "Cost analysis", "Performance metrics", "A/B testing"],
+  },
+  {
+    id: 'measure',
+    icon: LineChartOutlined,
+    label: "Measure",
+    title: "Consistency & Efficiency Metrics",
+    tagline: "Monitor how your agents are improving",
+    description: "Track consistency and token efficiency so teams can see how their agents are performing over time with experience. Measure real improvements, not just outputs.",
+    color: "#7dd3fc",
+    highlights: ["Real-time metrics", "Trend analysis", "Token efficiency", "Quality scores"],
+  },
+];
+
+// Interactive Feature Showcase Component
+const FeatureShowcase = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeFeature = features[activeIndex];
+  const Icon = activeFeature.icon;
+
   return (
-    <div className="min-h-screen">
+    <div style={{ position: 'relative' }}>
+      {/* Feature Navigation Pills */}
+      <Flex 
+        justify="center" 
+        gap={8} 
+        wrap="wrap"
+        style={{ marginBottom: 64 }}
+      >
+        {features.map((feature, index) => {
+          const FeatureIcon = feature.icon;
+          const isActive = index === activeIndex;
+          return (
+            <button
+              key={feature.id}
+              onClick={() => setActiveIndex(index)}
+              className="feature-pill"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 10,
+                padding: '14px 24px',
+                borderRadius: 50,
+                border: '1px solid',
+                borderColor: isActive ? feature.color : 'rgba(255, 255, 255, 0.08)',
+                background: isActive 
+                  ? `linear-gradient(135deg, ${feature.color}15, ${feature.color}05)`
+                  : 'rgba(255, 255, 255, 0.02)',
+                color: isActive ? feature.color : '#666666',
+                cursor: 'pointer',
+                transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: 'inherit',
+              }}
+            >
+              <FeatureIcon style={{ fontSize: 18 }} />
+              <span>{feature.label}</span>
+            </button>
+          );
+        })}
+      </Flex>
+
+      {/* Main Feature Display */}
+      <div 
+        className="feature-display"
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: 64,
+          alignItems: 'center',
+          minHeight: 400,
+        }}
+      >
+        {/* Left - Content */}
+        <div 
+          key={activeFeature.id}
+          className="feature-content"
+          style={{
+            animation: 'fadeSlideIn 0.5s ease forwards',
+          }}
+        >
+          {/* Icon Badge */}
+          
+
+          {/* Title */}
+          <Title 
+            level={2} 
+            style={{ 
+              color: '#fafafa', 
+              margin: 0,
+              marginBottom: 12,
+              fontSize: 36,
+              fontWeight: 600,
+              letterSpacing: '-0.02em',
+            }}
+          >
+            {activeFeature.title}
+          </Title>
+
+          {/* Tagline */}
+          <Text 
+            style={{ 
+              color: activeFeature.color,
+              fontSize: 16,
+              fontWeight: 500,
+              display: 'block',
+              marginBottom: 24,
+            }}
+          >
+            {activeFeature.tagline}
+          </Text>
+
+          {/* Description */}
+          <Paragraph 
+            style={{ 
+              color: '#888888',
+              fontSize: 16,
+              lineHeight: 1.8,
+              margin: 0,
+              marginBottom: 32,
+              maxWidth: 500,
+            }}
+          >
+            {activeFeature.description}
+          </Paragraph>
+
+          {/* Highlights */}
+          <Flex gap={12} wrap="wrap">
+            {activeFeature.highlights.map((highlight, i) => (
+              <div
+                key={highlight}
+                style={{
+                  padding: '8px 16px',
+                  borderRadius: 8,
+                  background: 'rgba(255, 255, 255, 0.03)',
+                  border: '1px solid rgba(255, 255, 255, 0.06)',
+                  color: '#a0a0a0',
+                  fontSize: 13,
+                  animation: `fadeSlideIn 0.5s ease ${i * 0.1}s forwards`,
+                  opacity: 0,
+                }}
+              >
+                {highlight}
+              </div>
+            ))}
+          </Flex>
+        </div>
+
+        {/* Right - Visual */}
+        <div 
+          style={{
+            position: 'relative',
+            height: 400,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          {/* Animated background orb */}
+          <div 
+            key={`orb-${activeFeature.id}`}
+            style={{
+              position: 'absolute',
+              width: 300,
+              height: 300,
+              borderRadius: '50%',
+              background: `radial-gradient(circle, ${activeFeature.color}15, transparent 70%)`,
+              filter: 'blur(40px)',
+              animation: 'pulseGlow 4s ease-in-out infinite',
+            }}
+          />
+          
+          {/* Connection lines */}
+          <svg 
+            width="350" 
+            height="350" 
+            style={{ position: 'absolute', opacity: 0.3 }}
+          >
+            <circle 
+              cx="175" 
+              cy="175" 
+              r="120" 
+              fill="none" 
+              stroke={activeFeature.color}
+              strokeWidth="1"
+              strokeDasharray="8 8"
+              style={{ animation: 'rotate 30s linear infinite' }}
+            />
+            <circle 
+              cx="175" 
+              cy="175" 
+              r="80" 
+              fill="none" 
+              stroke={activeFeature.color}
+              strokeWidth="1"
+              strokeDasharray="4 12"
+              style={{ animation: 'rotate 20s linear infinite reverse' }}
+            />
+          </svg>
+
+          {/* Feature number */}
+          <div 
+            style={{
+              fontSize: 180,
+              fontWeight: 800,
+              color: activeFeature.color,
+              opacity: 0.08,
+              position: 'absolute',
+              fontFamily: "'DM Sans', sans-serif",
+              lineHeight: 1,
+            }}
+          >
+            0{activeIndex + 1}
+          </div>
+
+          {/* Central icon */}
+          <div 
+            key={`icon-${activeFeature.id}`}
+            style={{
+              width: 120,
+              height: 120,
+              borderRadius: 32,
+              background: `linear-gradient(135deg, ${activeFeature.color}25, ${activeFeature.color}10)`,
+              border: `2px solid ${activeFeature.color}40`,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              position: 'relative',
+              zIndex: 2,
+              boxShadow: `0 0 60px ${activeFeature.color}30`,
+              animation: 'scaleIn 0.5s ease forwards',
+            }}
+          >
+            <Icon style={{ fontSize: 48, color: activeFeature.color }} />
+          </div>
+
+          {/* Floating dots */}
+          {[...Array(6)].map((_, i) => (
+            <div
+              key={i}
+              style={{
+                position: 'absolute',
+                width: 8 + (i % 3) * 4,
+                height: 8 + (i % 3) * 4,
+                borderRadius: '50%',
+                background: i % 2 === 0 ? activeFeature.color : '#fff',
+                opacity: 0.4 - (i * 0.05),
+                top: `${20 + (i * 12)}%`,
+                left: `${15 + (i * 14)}%`,
+                animation: `floatDot ${3 + i * 0.5}s ease-in-out infinite`,
+                animationDelay: `${i * 0.3}s`,
+              }}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Progress indicators */}
+      <Flex justify="center" gap={8} style={{ marginTop: 48 }}>
+        {features.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setActiveIndex(index)}
+            style={{
+              width: index === activeIndex ? 32 : 8,
+              height: 8,
+              borderRadius: 4,
+              border: 'none',
+              background: index === activeIndex 
+                ? features[index].color 
+                : 'rgba(255, 255, 255, 0.1)',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+            }}
+          />
+        ))}
+      </Flex>
+    </div>
+  );
+};
+
+// Flip card for team carousel
+const TeamCarouselCard = ({ member }: { member: TeamMember }) => {
+  return (
+    <div 
+      className="flip-card"
+      style={{
+        width: 280,
+        height: 400,
+        flexShrink: 0,
+        perspective: 1000,
+      }}
+    >
+      <div className="flip-card-inner">
+        {/* Front Face - Image */}
+        <div 
+          className="flip-card-front"
+          style={{
+            borderRadius: 16,
+            overflow: 'hidden',
+            background: '#0a0a0a',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+          }}
+        >
+          <Image
+            src={member.image}
+            alt={member.name}
+            fill
+            style={{
+              objectFit: 'cover',
+              objectPosition: 'center top',
+            }}
+          />
+          
+          {/* Gradient Overlay */}
+          <div 
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'linear-gradient(180deg, transparent 40%, rgba(0, 0, 0, 0.95) 100%)',
+              zIndex: 1,
+            }}
+          />
+          
+          {/* Info at Bottom */}
+          <div 
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              padding: '24px 20px',
+              zIndex: 2,
+            }}
+          >
+            <Title 
+              level={4} 
+              style={{ 
+                color: '#fafafa', 
+                margin: 0,
+                marginBottom: 4,
+                fontSize: 18,
+                fontWeight: 600,
+              }}
+            >
+              {member.name}
+            </Title>
+            <Text 
+              style={{ 
+                color: '#a0a0a0',
+                fontSize: 13,
+                display: 'block',
+              }}
+            >
+              {member.role}
+            </Text>
+          </div>
+        </div>
+        
+        {/* Back Face - Bio */}
+        <div 
+          className="flip-card-back"
+          style={{
+            borderRadius: 16,
+            overflow: 'hidden',
+            background: 'linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%)',
+            border: '1px solid rgba(196, 167, 255, 0.2)',
+            padding: 24,
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          {/* Decorative gradient line at top */}
+          <div 
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              height: 2,
+              background: 'linear-gradient(90deg, #c4a7ff, #7dd3fc)',
+            }}
+          />
+          
+          {/* Header */}
+          <div style={{ marginBottom: 16 }}>
+            <Title 
+              level={4} 
+              style={{ 
+                color: '#fafafa', 
+                margin: 0,
+                marginBottom: 4,
+                fontSize: 18,
+                fontWeight: 600,
+              }}
+            >
+              {member.name}
+            </Title>
+            <Text 
+              style={{ 
+                color: '#c4a7ff',
+                fontSize: 12,
+                fontWeight: 600,
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
+              }}
+            >
+              {member.role}
+            </Text>
+          </div>
+          
+          {/* Company */}
+          {member.company && (
+            <Text 
+              style={{ 
+                color: '#7dd3fc',
+                fontSize: 12,
+                display: 'block',
+                marginBottom: 16,
+              }}
+            >
+              {member.company}
+            </Text>
+          )}
+          
+          {/* Bio */}
+          <Paragraph 
+            style={{ 
+              color: '#a0a0a0',
+              fontSize: 13,
+              lineHeight: 1.7,
+              margin: 0,
+              flex: 1,
+            }}
+          >
+            {member.bio}
+          </Paragraph>
+          
+          {/* Social Links */}
+          <Flex gap={8} style={{ marginTop: 16 }}>
+            <Link href={member.linkedin}>
+              <Button
+                type="link"
+                icon={<LinkedinOutlined />}
+                style={{ 
+                  color: '#888888',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  borderRadius: 8,
+                  width: 36,
+                  height: 36,
+                }}
+              />
+            </Link>
+            <Link href={member.twitter}>
+              <Button
+                type="text"
+                icon={<XOutlined />}
+                style={{ 
+                  color: '#888888',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  borderRadius: 8,
+                  width: 36,
+                  height: 36,
+                }}
+              />
+            </Link>
+          </Flex>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default function HomePage() {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [hasScrolled, setHasScrolled] = useState(false);
+  const [needsScroll, setNeedsScroll] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Show border after scrolling past 100px
+      setHasScrolled(window.scrollY > 100);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Check if carousel needs scrolling
+  useEffect(() => {
+    const checkScrollNeeded = () => {
+      if (scrollContainerRef.current) {
+        const { scrollWidth, clientWidth } = scrollContainerRef.current;
+        setNeedsScroll(scrollWidth > clientWidth);
+      }
+    };
+
+    checkScrollNeeded();
+    window.addEventListener('resize', checkScrollNeeded);
+    return () => window.removeEventListener('resize', checkScrollNeeded);
+  }, []);
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = 300;
+      scrollContainerRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  return (
+    <Layout style={{ minHeight: '100vh', background: 'transparent' }}>
       {/* Background effects */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="hero-glow hero-glow-1" />
@@ -127,294 +637,504 @@ export default function Home() {
         <div className="absolute inset-0 grid-pattern opacity-30" />
       </div>
 
-      {/* Navbar */}
-      <nav className="navbar fixed top-0 left-0 right-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            {/* Logo */}
-            <Link href="/" className="flex items-center gap-3">
-              <Image
-                src="/logo.png"
-                alt="Marshmallo"
-                width={32}
-                height={32}
-                className="rounded-lg"
-              />
-              <span className="text-lg font-semibold tracking-tight">Marshmallo</span>
+      {/* Header / Navigation */}
+      <Header 
+        className="navbar"
+        style={{ 
+          background: hasScrolled ? 'rgba(5, 5, 5, 0.8)' : 'transparent',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          borderBottom: '1px solid',
+          borderBottomColor: hasScrolled ? 'rgba(255, 255, 255, 0.06)' : 'transparent',
+          padding: '0 24px',
+          height: 'auto',
+          lineHeight: 'normal',
+          position: 'sticky',
+          top: 0,
+          zIndex: 50,
+          transition: 'background 0.3s ease, border-bottom-color 0.3s ease',
+        }}
+      >
+        <div style={{ maxWidth: 1280, margin: '0 auto', padding: '16px 0' }}>
+          <Flex justify="space-between" align="center">
+            <Link href="/">
+              <Flex align="center" gap={12}>
+                <Image 
+                  src="/logo.png" 
+                  alt="Marshmallo" 
+                  width={32} 
+                  height={32}
+                  style={{ borderRadius: 8 }}
+                />
+                <Text strong style={{ color: '#fafafa', fontSize: 18 }}>
+                  Marshmallo AI
+                </Text>
+              </Flex>
             </Link>
-
-            {/* Nav Links */}
-            <div className="flex items-center gap-8">
-              <Link href="#features" className="nav-link hidden sm:block">
-                Features
-              </Link>
-              <Link href="#team" className="nav-link hidden sm:block">
-                Team
-              </Link>
-              <Link href="/docs" className="nav-link">
+            <Link href="https://docs.marshmallo.ai/" target="_blank">
+              <Button 
+                type="text" 
+                style={{ color: '#888888' }}
+              >
                 Docs
-              </Link>
-              <div className="flex items-center gap-3">
-                <Link href="/login" className="nav-link">
-                  Log in
-                </Link>
-                <Link href="/signup" className="btn-primary text-sm !py-2.5 !px-5">
-                  Get Started
-                </Link>
-              </div>
-            </div>
-          </div>
+              </Button>
+            </Link>
+          </Flex>
         </div>
-      </nav>
+      </Header>
 
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center pt-16">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-24 lg:py-32">
-          <div className="max-w-4xl mx-auto text-center">
-            {/* Label */}
-            <div className="animate-fade-in opacity-0" style={{ animationDelay: '100ms' }}>
-              <span className="section-label">AI Infrastructure for Enterprise</span>
-            </div>
-            
+      {/* Main Content */}
+      <Content style={{ background: 'transparent', position: 'relative', zIndex: 1 }}>
+        {/* Hero Section - Full viewport height */}
+        <section 
+          style={{ 
+            minHeight: 'calc(100vh - 65px)', 
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '80px 24px',
+            position: 'relative',
+            overflow: 'hidden',
+          }}
+        >
+          {/* Floating particles */}
+          <div className="hero-shapes">
+            <div className="hero-shape-5" />
+          </div>
+
+          <div style={{ maxWidth: 900, textAlign: 'center', position: 'relative', zIndex: 2 }}>
             {/* Main headline */}
-            <h1 className="mt-6 text-5xl sm:text-6xl lg:text-7xl font-medium tracking-tight leading-[1.1] animate-fade-in-up opacity-0" style={{ animationDelay: '200ms' }}>
-              Give Your Agents
+            <Title 
+              level={1} 
+              style={{ 
+                color: '#fafafa', 
+                margin: 0,
+                fontSize: 'clamp(40px, 7vw, 80px)',
+                fontWeight: 500,
+                letterSpacing: '-0.03em',
+                lineHeight: 1.15,
+                marginBottom: 24,
+              }}
+            >
+              Give Your Agents{' '}
               <br />
-              <span className="font-serif italic text-gradient">Work Experience</span>
-            </h1>
-
-            {/* Subheadline */}
-            <p className="mt-8 text-lg sm:text-xl text-[var(--color-text-muted)] max-w-2xl mx-auto leading-relaxed animate-fade-in-up opacity-0" style={{ animationDelay: '400ms' }}>
-              Today's agents don't learn. They produce inconsistent outcomes and require constant intervention. 
-              <span className="text-[var(--color-text)]"> Marshmallo enables agents to learn from every interaction</span>—becoming more consistent, efficient, and trusted over time.
-            </p>
-
-            {/* CTA Buttons */}
-            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up opacity-0" style={{ animationDelay: '600ms' }}>
-              <button className="btn-primary flex items-center gap-2 group">
-                Start Building
-                <span className="group-hover:translate-x-1 transition-transform">
-                  <ArrowRightIcon />
-                </span>
-              </button>
-              <button className="btn-secondary">
-                Read Documentation
-              </button>
-            </div>
-
-            {/* Trust indicators */}
-            <div className="mt-16 animate-fade-in opacity-0" style={{ animationDelay: '800ms' }}>
-              <p className="text-sm text-[var(--color-text-muted)] mb-4">Enabling AI agents to be trusted in production</p>
-              <div className="flex items-center justify-center gap-8 opacity-40">
-                <div className="h-6 w-px bg-[var(--color-border)]" />
-                <span className="text-sm font-medium">Continual Learning</span>
-                <div className="h-6 w-px bg-[var(--color-border)]" />
-                <span className="text-sm font-medium">Trajectory Rewards</span>
-                <div className="h-6 w-px bg-[var(--color-border)]" />
-                <span className="text-sm font-medium">Human-in-the-Loop</span>
-                <div className="h-6 w-px bg-[var(--color-border)]" />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-fade-in opacity-0" style={{ animationDelay: '1000ms' }}>
-          <div className="w-6 h-10 border-2 border-[var(--color-border)] rounded-full flex items-start justify-center p-2">
-            <div className="w-1 h-2 bg-[var(--color-text-muted)] rounded-full animate-bounce" />
-          </div>
-        </div>
-      </section>
-
-      {/* Problem Statement */}
-      <section className="relative py-24 lg:py-32">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center mb-20">
-            <span className="section-label">The Problem</span>
-            <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight">
-              Agents Don't <span className="font-serif italic">Learn</span>
-            </h2>
-            <p className="mt-6 text-lg text-[var(--color-text-muted)] leading-relaxed">
-              Today's agents operate like black boxes. They produce inconsistent outcomes, require constant manual intervention, and do not improve with use.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="card p-8">
-              <div className="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center mb-6">
-                <span className="text-2xl">⚡</span>
-              </div>
-              <h3 className="text-lg font-semibold mb-3">Inconsistent Behaviour</h3>
-              <p className="text-[var(--color-text-muted)] leading-relaxed">
-                The same input can trigger different tools, different reasoning paths, and unpredictable outputs.
-              </p>
-            </div>
-            <div className="card p-8">
-              <div className="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center mb-6">
-                <span className="text-2xl">🔧</span>
-              </div>
-              <h3 className="text-lg font-semibold mb-3">Manual & Expensive</h3>
-              <p className="text-[var(--color-text-muted)] leading-relaxed">
-                Teams continuously rewrite prompts, manually review outputs, and hire engineers to build bespoke eval systems.
-              </p>
-            </div>
-            <div className="card p-8">
-              <div className="w-12 h-12 rounded-xl bg-yellow-500/10 flex items-center justify-center mb-6">
-                <span className="text-2xl">🎯</span>
-              </div>
-              <h3 className="text-lg font-semibold mb-3">No Control</h3>
-              <p className="text-[var(--color-text-muted)] leading-relaxed">
-                Enterprises lack infrastructure to capture agent behaviour, reasoning, and learnings at scale.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Divider */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="divider" />
-      </div>
-
-      {/* Features Section */}
-      <section id="features" className="relative py-24 lg:py-32">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center mb-20">
-            <span className="section-label">The Solution</span>
-            <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight">
-              The Learning Infrastructure <br />
-              <span className="font-serif italic">for AI Agents</span>
-            </h2>
-            <p className="mt-6 text-lg text-[var(--color-text-muted)] leading-relaxed">
-              We wrap existing agents with a continual learning loop that observes actions, evaluates task trajectories, and enables agents to learn from experience.
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-6">
-            {features.map((feature, index) => (
-              <div key={index} className="feature-card p-8 lg:p-10">
-                <div className="feature-icon mb-6">
-                  {feature.icon}
-                </div>
-                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                <p className="text-[var(--color-accent)] text-sm font-medium mb-4">{feature.subtitle}</p>
-                <p className="text-[var(--color-text-muted)] leading-relaxed">
-                  {feature.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Divider */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="divider" />
-      </div>
-
-      {/* Team Section */}
-      <section id="team" className="relative py-24 lg:py-32">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center mb-20">
-            <span className="section-label">Our Team</span>
-            <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight">
-              Built by <span className="font-serif italic">Experts</span>
-            </h2>
-            <p className="mt-6 text-lg text-[var(--color-text-muted)] leading-relaxed">
-              World-class researchers and engineers from leading AI labs, enterprise tech, and academia.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {team.map((member, index) => (
-              <div key={index} className="team-card p-8">
-                <div className="flex items-start justify-between mb-6">
-                  <div className="avatar-initials">
-                    {member.initials}
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <a href={member.linkedin} className="text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors">
-                      <LinkedInIcon />
-                    </a>
-                    <a href={member.twitter} className="text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors">
-                      <XIcon />
-                    </a>
-                  </div>
-                </div>
-                <h3 className="text-lg font-semibold">{member.name}</h3>
-                <p className="text-[var(--color-accent)] text-sm font-medium mb-4">{member.role}</p>
-                <p className="text-sm text-[var(--color-text-muted)] leading-relaxed">
-                  {member.bio}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="relative py-24 lg:py-32">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[var(--color-surface)] to-[var(--color-bg-elevated)] border border-[var(--color-border)] p-12 lg:p-20 text-center">
-            {/* Glow effect */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-to-b from-[var(--color-accent)] to-transparent opacity-10 blur-[100px] pointer-events-none" />
+              <span className="font-serif" style={{ fontStyle: 'italic', fontWeight: 400 }}>
+                <span className="text-gradient">Work Experience.</span>
+              </span>
+            </Title>
             
-            <h2 className="relative text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight mb-6">
-              Ready to give your agents
-              <br />
-              <span className="font-serif italic text-gradient">real work experience?</span>
-            </h2>
-            <p className="relative text-lg text-[var(--color-text-muted)] max-w-2xl mx-auto mb-10">
-              Join enterprise teams building the next generation of trusted AI agents.
-            </p>
-            <div className="relative flex flex-col sm:flex-row items-center justify-center gap-4">
-              <button className="btn-primary flex items-center gap-2 group">
-                Get Started Free
-                <span className="group-hover:translate-x-1 transition-transform">
-                  <ArrowRightIcon />
+            {/* Subtitle */}
+            <Paragraph 
+              style={{ 
+                color: '#888888', 
+                fontSize: 'clamp(16px, 2vw, 20px)',
+                margin: '0 auto 48px',
+                maxWidth: 600,
+                lineHeight: 1.6,
+              }}
+            >
+              We're building AI agents that learn from every interaction, 
+              accumulating expertise just like humans do.
+            </Paragraph>
+            
+            {/* CTA Buttons */}
+            <Flex justify="center" gap={16} style={{ marginBottom: 64 }}>
+              <Link href="mailto:hello@marshmallo.ai">
+                <Button 
+                  type="primary" 
+                  size="large"
+                  style={{
+                    background: '#fafafa',
+                    border: 'none',
+                    color: '#050505',
+                    fontWeight: 600,
+                    height: 52,
+                    paddingInline: 32,
+                    borderRadius: 12,
+                    fontSize: 15,
+                  }}
+                >
+                  Get in Touch
+                </Button>
+              </Link>
+              <Link href="https://docs.marshmallo.ai/" target="_blank">
+                <Button 
+                  size="large"
+                  style={{
+                    background: 'transparent',
+                    border: '1px solid rgba(255, 255, 255, 0.15)',
+                    color: '#a0a0a0',
+                    height: 52,
+                    paddingInline: 32,
+                    borderRadius: 12,
+                    fontSize: 15,
+                  }}
+                >
+                  Documentation
+                </Button>
+              </Link>
+            </Flex>
+          </div>
+        </section>
+
+        {/* Features Section */}
+        <section style={{ padding: '120px 24px' }}>
+          <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+            {/* Section Header */}
+            <div style={{ textAlign: 'center', marginBottom: 80 }}>
+              <Text 
+                style={{ 
+                  color: '#c4a7ff',
+                  fontSize: 11,
+                  fontWeight: 700,
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  display: 'block',
+                  marginBottom: 16,
+                }}
+              >
+                Platform Features
+              </Text>
+              <Title 
+                level={2} 
+                style={{ 
+                  color: '#fafafa', 
+                  margin: 0,
+                  fontSize: 'clamp(32px, 5vw, 48px)',
+                  fontWeight: 600,
+                  letterSpacing: '-0.03em',
+                }}
+              >
+                Everything you need to build{' '}
+                <span className="text-gradient font-serif" style={{ fontStyle: 'italic' }}>
+                  learning agents
                 </span>
-              </button>
-              <button className="btn-secondary">
-                Schedule a Demo
-              </button>
+              </Title>
+            </div>
+            
+            {/* Interactive Feature Showcase */}
+            <FeatureShowcase />
+          </div>
+        </section>
+
+        {/* Team Section - Horizontal Carousel */}
+        <section style={{ padding: '80px 24px 120px' }}>
+          <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+            {/* Section Header */}
+            <Flex justify="space-between" align="flex-end" wrap="wrap" gap={24} style={{ marginBottom: 48 }}>
+              <div>
+                <Text 
+                  style={{ 
+                    color: '#c4a7ff',
+                    fontSize: 11,
+                    fontWeight: 700,
+                    letterSpacing: '0.15em',
+                    textTransform: 'uppercase',
+                    display: 'block',
+                    marginBottom: 12,
+                  }}
+                >
+                  The Team
+                </Text>
+                <Title 
+                  level={2} 
+                  style={{ 
+                    color: '#fafafa', 
+                    margin: 0,
+                    fontSize: 'clamp(32px, 5vw, 48px)',
+                    fontWeight: 600,
+                    letterSpacing: '-0.03em',
+                  }}
+                >
+                  Built by{' '}
+                  <span className="text-gradient font-serif" style={{ fontStyle: 'italic' }}>
+                    believers
+                  </span>
+                </Title>
+              </div>
+              
+              {/* Navigation Arrows - Only show if scrolling is needed */}
+              {needsScroll && (
+                <Space size={8}>
+                  <Button
+                    type="text"
+                    icon={<LeftOutlined />}
+                    onClick={() => scroll('left')}
+                    style={{
+                      width: 48,
+                      height: 48,
+                      borderRadius: 12,
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      color: '#888888',
+                      background: 'rgba(255, 255, 255, 0.02)',
+                    }}
+                  />
+                  <Button
+                    type="text"
+                    icon={<RightOutlined />}
+                    onClick={() => scroll('right')}
+                    style={{
+                      width: 48,
+                      height: 48,
+                      borderRadius: 12,
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      color: '#888888',
+                      background: 'rgba(255, 255, 255, 0.02)',
+                    }}
+                  />
+                </Space>
+              )}
+            </Flex>
+
+            {/* Horizontal Scroll Container */}
+            <div 
+              ref={scrollContainerRef}
+              className="team-carousel"
+              style={{
+                display: 'flex',
+                gap: 20,
+                overflowX: 'auto',
+                paddingBottom: 20,
+                scrollSnapType: 'x mandatory',
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none',
+              }}
+            >
+              {team.map((member) => (
+                <div key={member.name} style={{ scrollSnapAlign: 'start' }}>
+                  <TeamCarouselCard member={member} />
+                </div>
+              ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+ 
+      
+
+        {/* CTA Section */}
+        <section style={{ padding: '140px 24px', position: 'relative', overflow: 'hidden' }}>
+          {/* Background Elements */}
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            pointerEvents: 'none',
+          }}>
+            {/* Large Gradient Orbs */}
+            <div style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: 600,
+              height: 600,
+              borderRadius: '50%',
+              background: 'radial-gradient(circle, rgba(196, 167, 255, 0.12) 0%, transparent 60%)',
+              filter: 'blur(80px)',
+              animation: 'pulseGlow 8s ease-in-out infinite',
+            }} />
+            <div style={{
+              position: 'absolute',
+              top: '30%',
+              left: '10%',
+              width: 300,
+              height: 300,
+              borderRadius: '50%',
+              background: 'radial-gradient(circle, rgba(125, 211, 252, 0.1) 0%, transparent 70%)',
+              filter: 'blur(60px)',
+              animation: 'pulseGlow 12s ease-in-out infinite reverse',
+            }} />
+            <div style={{
+              position: 'absolute',
+              bottom: '20%',
+              right: '10%',
+              width: 250,
+              height: 250,
+              borderRadius: '50%',
+              background: 'radial-gradient(circle, rgba(196, 167, 255, 0.08) 0%, transparent 70%)',
+              filter: 'blur(50px)',
+              animation: 'pulseGlow 10s ease-in-out infinite',
+            }} />
+
+            {/* Floating Decorative Circles */}
+            <div style={{
+              position: 'absolute',
+              top: '15%',
+              right: '15%',
+              width: 120,
+              height: 120,
+              borderRadius: '50%',
+              border: '1px dashed rgba(196, 167, 255, 0.2)',
+              animation: 'rotate 25s linear infinite',
+            }} />
+            <div style={{
+              position: 'absolute',
+              bottom: '20%',
+              left: '12%',
+              width: 80,
+              height: 80,
+              borderRadius: '50%',
+              border: '1px dashed rgba(125, 211, 252, 0.2)',
+              animation: 'rotate 18s linear infinite reverse',
+            }} />
+            <div style={{
+              position: 'absolute',
+              top: '60%',
+              right: '8%',
+              width: 50,
+              height: 50,
+              borderRadius: '50%',
+              border: '1px solid rgba(196, 167, 255, 0.15)',
+              animation: 'rotate 12s linear infinite',
+            }} />
+
+            {/* Floating Dots */}
+            {[...Array(8)].map((_, i) => (
+              <div
+                key={i}
+                style={{
+                  position: 'absolute',
+                  width: 4 + (i % 3) * 2,
+                  height: 4 + (i % 3) * 2,
+                  borderRadius: '50%',
+                  background: i % 2 === 0 ? 'rgba(196, 167, 255, 0.4)' : 'rgba(125, 211, 252, 0.4)',
+                  left: `${10 + i * 11}%`,
+                  top: `${20 + (i % 4) * 20}%`,
+                  animation: `floatDot ${6 + i}s ease-in-out infinite`,
+                  animationDelay: `${i * 0.5}s`,
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Content */}
+          <div style={{
+            maxWidth: 800,
+            margin: '0 auto',
+            position: 'relative',
+            zIndex: 1,
+          }}>
+            <Flex vertical align="center" gap={40}>
+              {/* Eyebrow */}
+              <Tag
+                style={{
+                  background: 'rgba(196, 167, 255, 0.1)',
+                  border: '1px solid rgba(196, 167, 255, 0.3)',
+                  color: '#c4a7ff',
+                  borderRadius: 20,
+                  padding: '8px 20px',
+                  fontSize: 12,
+                  fontWeight: 600,
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                Join the waitlist
+              </Tag>
+
+              {/* Headline */}
+              <Title 
+                level={1} 
+                style={{ 
+                  color: '#fafafa', 
+                  margin: 0,
+                  fontSize: 'clamp(36px, 6vw, 64px)',
+                  fontWeight: 700,
+                  textAlign: 'center',
+                  letterSpacing: '-0.03em',
+                  lineHeight: 1.1,
+                }}
+              >
+                Ready to give your agents{' '}
+                <span className="text-gradient font-serif" style={{ fontStyle: 'italic' }}>
+                real work experience?
+                </span>
+                <br />
+              </Title>
+
+              {/* Description */}
+              <Paragraph 
+                style={{ 
+                  color: '#a0a0a0', 
+                  fontSize: 'clamp(16px, 2vw, 20px)',
+                  margin: 0,
+                  lineHeight: 1.7,
+                  textAlign: 'center',
+                  maxWidth: 600,
+                }}
+              >
+                Join enterprise teams building the next generation of trusted AI agents. 
+              </Paragraph>
+
+              {/* Buttons */}
+              <Flex gap={20} wrap="wrap" justify="center" style={{ marginTop: 16 }}>
+                <Link href="mailto:hello@marshmallo.ai">
+                  <Button 
+                    type="primary" 
+                    size="large"
+                    className="btn-primary"
+                    style={{
+                      background: 'linear-gradient(135deg, #c4a7ff, #7dd3fc)',
+                      border: 'none',
+                      color: '#050505',
+                      fontWeight: 600,
+                      height: 56,
+                      paddingInline: 40,
+                      fontSize: 16,
+                      borderRadius: 16,
+                      boxShadow: '0 0 40px rgba(196, 167, 255, 0.35)',
+                    }}
+                  >
+                    Get in Touch
+                  </Button>
+                </Link>
+                <Link href="https://linkedin.com/company/marshmallo-ai" target="_blank">
+                  <Button 
+                    size="large"
+                    style={{
+                      background: 'transparent',
+                      border: '1px solid rgba(255, 255, 255, 0.15)',
+                      color: '#fafafa',
+                      fontWeight: 500,
+                      height: 56,
+                      paddingInline: 40,
+                      fontSize: 16,
+                      borderRadius: 16,
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.25)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'transparent';
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)';
+                    }}
+                  >
+                    Follow Us
+                  </Button>
+                </Link>
+              </Flex>
+            </Flex>
+          </div>
+        </section>
+      </Content>
 
       {/* Footer */}
-      <footer className="relative py-12 border-t border-[var(--color-border)]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-3">
-              <Image
-                src="/logo.png"
-                alt="Marshmallo"
-                width={24}
-                height={24}
-                className="rounded-md"
-              />
-              <span className="text-sm text-[var(--color-text-muted)]">
-                © 2025 Marshmallo AI. All rights reserved.
-              </span>
-            </div>
-            <div className="flex items-center gap-6">
-              <Link href="/privacy" className="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors">
-                Privacy
-              </Link>
-              <Link href="/terms" className="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors">
-                Terms
-              </Link>
-              <a href="https://twitter.com" className="text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors">
-                <XIcon />
-              </a>
-              <a href="https://linkedin.com" className="text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors">
-                <LinkedInIcon />
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer 
+        style={{ 
+          background: 'transparent', 
+          padding: '40px 24px',
+          position: 'relative',
+          zIndex: 1,
+        }}
+      >
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <Flex justify="center">
+            <Text style={{ color: '#666666', fontSize: 14 }}>
+              © 2025 Marshmallo AI. All rights reserved.
+            </Text>
+          </Flex>
     </div>
+      </Footer>
+    </Layout>
   );
 }
