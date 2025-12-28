@@ -2,7 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Instrument+Serif:ital@0;1&display=swap');
+/* Google Fonts - Lato, Roboto, Lora */
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400;1,500&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
 
 :root {
   --color-bg: #050505;
@@ -15,6 +16,11 @@
   --color-accent-soft: rgba(196, 167, 255, 0.1);
   --color-gradient-start: #c4a7ff;
   --color-gradient-end: #7dd3fc;
+  
+  /* Font families */
+  --font-heading: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Lato', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-serif: 'Lora', Georgia, serif;
 }
 
 * {
@@ -32,9 +38,16 @@ body {
   min-height: 100%;
   background: var(--color-bg);
   color: var(--color-text);
-  font-family: 'DM Sans', system-ui, sans-serif;
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.01em;
+}
+
+/* Headings use Roboto */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+  letter-spacing: -0.02em;
 }
 
 /* Custom scrollbar */
@@ -57,7 +70,11 @@ body {
 
 /* Typography */
 .font-serif {
-  font-family: 'Instrument Serif', Georgia, serif;
+  font-family: 'Lora', Georgia, serif;
+}
+
+.font-heading {
+  font-family: var(--font-heading);
 }
 
 .text-gradient {
@@ -98,6 +115,152 @@ body {
     linear-gradient(to right, var(--color-border) 1px, transparent 1px),
     linear-gradient(to bottom, var(--color-border) 1px, transparent 1px);
   background-size: 80px 80px;
+}
+
+/* Hero Floating Particles */
+.hero-shapes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* Floating Particles - Top Right Corner */
+.hero-shape-5 {
+  position: absolute;
+  top: 8%;
+  right: 3%;
+  width: 5px;
+  height: 5px;
+  background: rgba(125, 211, 252, 0.7);
+  border-radius: 50%;
+  box-shadow: 
+    /* Main dot glow */
+    0 0 15px rgba(125, 211, 252, 0.5),
+    /* Cluster spreading down-left from top-right corner */
+    -30px 50px 0 4px rgba(196, 167, 255, 0.6),
+    -30px 50px 20px rgba(196, 167, 255, 0.3),
+    20px 90px 0 3px rgba(125, 211, 252, 0.5),
+    -60px 120px 0 5px rgba(255, 255, 255, 0.4),
+    -60px 120px 25px rgba(255, 255, 255, 0.2),
+    -100px 80px 0 3px rgba(196, 167, 255, 0.45),
+    -20px 160px 0 4px rgba(125, 211, 252, 0.5),
+    -80px 180px 0 3px rgba(196, 167, 255, 0.4),
+    -130px 140px 0 4px rgba(125, 211, 252, 0.45),
+    -150px 220px 0 3px rgba(255, 255, 255, 0.35),
+    /* Outer edge particles */
+    30px 30px 0 3px rgba(196, 167, 255, 0.5),
+    -10px 200px 0 2px rgba(125, 211, 252, 0.35),
+    -180px 100px 0 2px rgba(196, 167, 255, 0.3),
+    -200px 260px 0 3px rgba(125, 211, 252, 0.35),
+    -50px 280px 0 2px rgba(196, 167, 255, 0.3),
+    /* Small accent dots */
+    50px 140px 0 2px rgba(255, 255, 255, 0.25),
+    -140px 300px 0 2px rgba(125, 211, 252, 0.25),
+    -220px 180px 0 2px rgba(196, 167, 255, 0.2);
+  animation: floatParticlesRight 20s ease-in-out infinite;
+}
+
+/* Floating Particles - Bottom Left Corner */
+.hero-shape-5::before {
+  content: '';
+  position: absolute;
+  bottom: -500px;
+  left: -92vw;
+  width: 5px;
+  height: 5px;
+  background: rgba(196, 167, 255, 0.7);
+  border-radius: 50%;
+  box-shadow: 
+    /* Main dot glow */
+    0 0 15px rgba(196, 167, 255, 0.5),
+    /* Cluster spreading up-right from bottom-left corner */
+    40px -60px 0 4px rgba(125, 211, 252, 0.6),
+    40px -60px 20px rgba(125, 211, 252, 0.3),
+    80px -30px 0 3px rgba(196, 167, 255, 0.5),
+    20px -120px 0 5px rgba(255, 255, 255, 0.4),
+    20px -120px 25px rgba(255, 255, 255, 0.2),
+    100px -100px 0 3px rgba(125, 211, 252, 0.45),
+    60px -180px 0 4px rgba(196, 167, 255, 0.5),
+    130px -150px 0 3px rgba(125, 211, 252, 0.4),
+    150px -80px 0 4px rgba(196, 167, 255, 0.45),
+    180px -200px 0 3px rgba(255, 255, 255, 0.35),
+    /* Outer edge particles */
+    -20px -40px 0 3px rgba(125, 211, 252, 0.5),
+    110px -220px 0 2px rgba(196, 167, 255, 0.35),
+    200px -140px 0 2px rgba(125, 211, 252, 0.3),
+    70px -280px 0 3px rgba(196, 167, 255, 0.35),
+    220px -250px 0 2px rgba(125, 211, 252, 0.3),
+    /* Small accent dots */
+    160px -300px 0 2px rgba(255, 255, 255, 0.25),
+    250px -180px 0 2px rgba(196, 167, 255, 0.25),
+    30px -320px 0 2px rgba(125, 211, 252, 0.2);
+  animation: floatParticlesLeft 24s ease-in-out infinite;
+}
+
+/* Scattered edge particles - top left and bottom right */
+.hero-shape-5::after {
+  content: '';
+  position: absolute;
+  top: 100px;
+  left: -85vw;
+  width: 3px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  box-shadow: 
+    /* Top left area */
+    30px 30px 0 3px rgba(196, 167, 255, 0.4),
+    30px 30px 12px rgba(196, 167, 255, 0.2),
+    80px 100px 0 2px rgba(125, 211, 252, 0.35),
+    -20px 150px 0 3px rgba(196, 167, 255, 0.4),
+    50px 200px 0 2px rgba(125, 211, 252, 0.3),
+    120px 60px 0 2px rgba(255, 255, 255, 0.25),
+    /* Bottom right area - offset significantly */
+    calc(85vw + 50px) 350px 0 3px rgba(125, 211, 252, 0.4),
+    calc(85vw + 50px) 350px 12px rgba(125, 211, 252, 0.2),
+    calc(85vw - 20px) 420px 0 2px rgba(196, 167, 255, 0.35),
+    calc(85vw + 100px) 300px 0 3px rgba(255, 255, 255, 0.3),
+    calc(85vw - 50px) 480px 0 2px rgba(125, 211, 252, 0.3),
+    calc(85vw + 30px) 250px 0 2px rgba(196, 167, 255, 0.25);
+  animation: floatParticlesEdge 28s ease-in-out infinite;
+}
+
+/* Particle Animation Keyframes */
+@keyframes floatParticlesRight {
+  0%, 100% { 
+    transform: translateY(0) translateX(0); 
+  }
+  33% { 
+    transform: translateY(-20px) translateX(-15px); 
+  }
+  66% { 
+    transform: translateY(15px) translateX(10px); 
+  }
+}
+
+@keyframes floatParticlesLeft {
+  0%, 100% { 
+    transform: translateY(0) translateX(0); 
+  }
+  33% { 
+    transform: translateY(15px) translateX(20px); 
+  }
+  66% { 
+    transform: translateY(-20px) translateX(-10px); 
+  }
+}
+
+@keyframes floatParticlesEdge {
+  0%, 100% { 
+    transform: translateY(0) translateX(0); 
+    opacity: 0.8;
+  }
+  50% { 
+    transform: translateY(-15px) translateX(15px); 
+    opacity: 0.6;
+  }
 }
 
 /* Animations */
@@ -207,6 +370,195 @@ body {
 .team-card:hover {
   border-color: rgba(196, 167, 255, 0.3);
   background: linear-gradient(135deg, var(--color-surface), rgba(196, 167, 255, 0.05));
+}
+
+/* Team carousel */
+.team-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+/* Flip Card Styles */
+.flip-card {
+  cursor: pointer;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+}
+
+/* Card hover shadow effect */
+.flip-card:hover .flip-card-front,
+.flip-card:hover .flip-card-back {
+  box-shadow: 
+    0 30px 60px -20px rgba(0, 0, 0, 0.5),
+    0 0 80px -20px rgba(196, 167, 255, 0.15);
+}
+
+/* 3D Feature Cards */
+.feature-card-3d {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+  transform: perspective(1000px) rotateX(0) rotateY(0);
+}
+
+.feature-card-3d:hover {
+  transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) translateY(-8px);
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 
+    0 40px 80px -30px rgba(0, 0, 0, 0.5),
+    0 0 60px -20px rgba(196, 167, 255, 0.15),
+    0 0 100px -40px rgba(125, 211, 252, 0.1);
+}
+
+.feature-card-3d:hover .card-glow-line {
+  opacity: 1 !important;
+}
+
+/* Gradient shimmer effect on hover */
+.feature-card-3d::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  padding: 1px;
+  background: linear-gradient(
+    135deg, 
+    rgba(196, 167, 255, 0.3), 
+    transparent 40%, 
+    transparent 60%, 
+    rgba(125, 211, 252, 0.2)
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.feature-card-3d:hover::before {
+  opacity: 1;
+}
+
+/* Subtle inner glow on hover */
+.feature-card-3d::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  background: radial-gradient(
+    ellipse at 50% 0%,
+    rgba(255, 255, 255, 0.03) 0%,
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.feature-card-3d:hover::after {
+  opacity: 1;
+}
+
+/* Feature Showcase Styles */
+.feature-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
+}
+
+.feature-display {
+  position: relative;
+}
+
+@media (max-width: 900px) {
+  .feature-display {
+    grid-template-columns: 1fr !important;
+    gap: 48px !important;
+    text-align: center;
+  }
+  
+  .feature-content {
+    order: 2;
+  }
+  
+  .feature-content > div:first-child {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* Feature animations */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes floatDot {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(-15px) translateX(10px);
+  }
 }
 
 /* Buttons */
