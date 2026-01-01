@@ -38,36 +38,27 @@ interface TeamMember {
 const team: TeamMember[] = [
   {
     name: "Gaby Haffner",
-    role: "CEO",
+    role: "Co-Founder",
     company: "Ex-Farfetch, Monitor Deloitte",
-    image: "/team/nitin.jpeg",
+    image: "/team/gaby.png",
     bio: "Commercial co-founder with a track record of enterprise GTM and platform commercialisation. At Farfetch, led productisation of internal infrastructure into white-labeled enterprise platform used by global luxury houses including Chanel.",
     linkedin: "#",
     twitter: "#",
   },
   {
     name: "Aman Jaglan",
-    role: "CTO",
+    role: "Co-Founder",
     company: "ML Research, Ex-Protiviti",
-    image: "/team/nitin.jpeg",
+    image: "/team/aman.png",
     bio: "Technical co-founder with deep expertise in ML, deep learning, and reinforcement learning. Published research in continual learning, developed open-source training frameworks, and built models outperforming state-of-the-art baselines.",
     linkedin: "#",
     twitter: "#",
   },
   {
-    name: "Michelangelo Naim",
-    role: "Founding Researcher",
-    company: "PhD MIT, Weizmann Institute",
-    image: "/team/nitin.jpeg",
-    bio: "PhD in theoretical and computational neuroscience from MIT and the Weizmann Institute. Doctoral research focused on 'Episodic Memory from First Principles,' exploring how intelligent systems store and retrieve experience over time.",
-    linkedin: "#",
-    twitter: "#"
-  },
-  {
     name: "Vishnu Arun",
     role: "Founding ML Engineer",
     company: "Shopify, YC-backed Jovian",
-    image: "/team/nitin.jpeg",
+    image: "/team/vishnu.png",
     bio: "Machine learning engineer at Shopify with prior experience at Jovian, a YC-backed company. Strong background in data engineering, model development, and system-level ML design. Technical writer with over 270k readers on Medium.",
     linkedin: "#",
     twitter: "#"
@@ -76,7 +67,7 @@ const team: TeamMember[] = [
     name: "Nitin Kumar",
     role: "Founding Software Engineer",
     company: "Deel, Razorpay, Webpack Core",
-    image: "/team/nitin.jpeg",
+    image: "/team/nitin.png",
     bio: "Senior full-stack engineer at Deel, previously at Razorpay. Core maintainer in the JavaScript ecosystem, contributing to Webpack and ESLint used by over 100M developers globally. Regular conference speaker at JSConf and React conferences.",
     linkedin: "#",
     twitter: "#"
