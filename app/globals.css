@@ -188,9 +188,9 @@ h1, h2, h3, h4, h5, h6 {
   height: 56px;
   display: grid;
   place-items: center;
-  background: var(--paper);
-  border: 2px solid var(--ink);
-  box-shadow: 2px 2px 0 var(--shadow);
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 
 .brand-image {
@@ -276,18 +276,6 @@ h1, h2, h3, h4, h5, h6 {
   margin-right: 8px;
 }
 
-.pixel-btn--cta.ant-btn {
-  background: var(--paper);
-  border-color: var(--ink);
-  color: var(--ink);
-  box-shadow: 6px 6px 0 var(--shadow);
-}
-
-.pixel-btn--cta.ant-btn:hover {
-  transform: translate(2px, 2px);
-  box-shadow: 4px 4px 0 var(--shadow);
-}
-
 .section {
   padding: 110px 24px;
   position: relative;
@@ -301,6 +289,10 @@ h1, h2, h3, h4, h5, h6 {
 .section-header {
   text-align: center;
   margin-bottom: 64px;
+}
+
+.section-features .section-header {
+  margin-bottom: 36px;
 }
 
 .section-header--split {
@@ -342,11 +334,6 @@ h1, h2, h3, h4, h5, h6 {
 .section-features .section-title,
 .section-features .section-kicker,
 .section-features .text-gradient {
-  color: var(--ink);
-  text-shadow: none;
-}
-
-.cta-section .text-gradient {
   color: var(--ink);
   text-shadow: none;
 }
@@ -425,7 +412,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .feature-tabs {
-  margin-bottom: 72px;
+  margin-bottom: 48px;
 }
 
 .feature-tab {
@@ -657,15 +644,17 @@ h1, h2, h3, h4, h5, h6 {
 
 .team-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(240px, 420px);
+  grid-template-columns: minmax(0, 1.2fr) minmax(240px, 0.8fr);
   gap: 64px;
   align-items: start;
+  text-align: left;
 }
 
 .team-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 32px 56px;
+  justify-items: stretch;
 }
 
 .team-card {
@@ -674,7 +663,12 @@ h1, h2, h3, h4, h5, h6 {
   align-items: flex-start;
   gap: 12px;
   padding: 16px 0;
-  border-top: 2px solid rgba(17, 17, 17, 0.2);
+}
+
+.team-divider {
+  height: 2px;
+  background: rgba(17, 17, 17, 0.2);
+  margin: 12px 0 0;
 }
 
 .team-card-content {
@@ -723,6 +717,10 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: 0.12em;
 }
 
+.team-card-role-line {
+  display: block;
+}
+
 .team-card-bio {
   margin: 6px 0 0;
   font-size: 12px;
@@ -739,51 +737,113 @@ h1, h2, h3, h4, h5, h6 {
   text-shadow: none;
 }
 
-
-.cta-section {
-  padding-top: 140px;
-  padding-bottom: 140px;
+.section-team {
+  background: var(--bg);
 }
 
-.cta-panel {
-  max-width: 900px;
-  margin: 0 auto;
-  background: var(--accent);
+.about-layout {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.8fr) minmax(0, 1.2fr);
+  gap: 64px;
+  align-items: start;
+}
+
+.section-about .section-title,
+.section-about .section-description {
+  color: var(--ink);
+  text-shadow: none;
+  margin: 0;
+}
+
+.section-about .section-title {
+  text-align: left;
+}
+
+
+.contact-section {
+  padding-top: 120px;
+  padding-bottom: 120px;
+}
+
+.contact-layout {
+  display: grid;
+  grid-template-columns: minmax(240px, 1fr) minmax(320px, 1.2fr);
+  gap: 48px;
+  align-items: start;
+}
+
+.contact-copy .section-kicker,
+.contact-copy .section-title,
+.contact-copy .section-description {
+  color: var(--ink);
+  text-shadow: none;
+}
+
+.contact-form {
+  background: var(--panel-cream);
   border: 3px solid var(--ink);
-  box-shadow: 8px 8px 0 var(--shadow);
-  padding: 64px 32px;
-  text-align: center;
+  box-shadow: 6px 6px 0 var(--shadow);
+  padding: 32px;
+  display: grid;
+  gap: 20px;
 }
 
-.pixel-label.ant-tag {
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.contact-field {
+  display: grid;
+  gap: 8px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+}
+
+.contact-field--full {
+  grid-column: 1 / -1;
+}
+
+.contact-label {
+  font-family: var(--font-heading);
+  font-size: 10px;
+}
+
+.contact-input {
+  width: 100%;
+  border: 2px solid var(--ink);
   background: var(--paper);
   color: var(--ink);
-  border: 2px solid var(--ink);
-  border-radius: 0;
-  padding: 8px 16px;
-  font-family: var(--font-heading);
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  line-height: 1.2;
+  padding: 10px 12px;
+  font-family: var(--font-body);
+  font-size: 18px;
+  outline: none;
+  box-shadow: inset 2px 2px 0 rgba(17, 17, 17, 0.08);
 }
 
-.cta-title {
+.contact-input:focus {
+  box-shadow: inset 2px 2px 0 rgba(17, 17, 17, 0.08), 3px 3px 0 var(--shadow);
+}
+
+.contact-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.contact-submit {
+  justify-self: start;
+}
+
+.contact-status {
   margin: 0;
-  font-size: clamp(28px, 5vw, 52px);
   color: var(--ink);
-  text-transform: uppercase;
 }
 
-.cta-text {
-  color: var(--ink);
-  font-size: clamp(14px, 2vw, 18px);
-  line-height: 1.7;
-  margin: 0;
-}
-
-.cta-actions {
-  margin-top: 12px;
+.contact-status--error {
+  color: #8b1f1f;
 }
 
 .site-footer {
@@ -905,8 +965,24 @@ h1, h2, h3, h4, h5, h6 {
 
   .team-layout {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     gap: 32px;
+  }
+
+  .contact-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .about-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .section-about .section-title {
+    text-align: left;
+  }
+
+  .contact-form {
+    justify-self: stretch;
   }
 }
 
@@ -919,10 +995,6 @@ h1, h2, h3, h4, h5, h6 {
     padding: 32px 24px;
   }
 
-  .cta-panel {
-    padding: 48px 24px;
-  }
-
   .pixel-btn {
     width: 100%;
     justify-content: center;
@@ -930,5 +1002,14 @@ h1, h2, h3, h4, h5, h6 {
 
   .team-grid {
     grid-template-columns: 1fr;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-submit {
+    width: 100%;
+    justify-self: stretch;
   }
 }

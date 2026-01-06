@@ -8,13 +8,11 @@ import {
   Button, 
   Flex,
   Layout,
-  Tag,
 } from 'antd';
 import { 
   EyeOutlined,
   EditOutlined,
-  ExperimentOutlined,
-  LineChartOutlined
+  ExperimentOutlined
 } from '@ant-design/icons';
 
 const { Title, Text, Paragraph } = Typography;
@@ -33,7 +31,7 @@ interface TeamMember {
 const team: TeamMember[] = [
   {
     name: "Gaby Haffner",
-    role: "Co-Founder",
+    role: "Co-Founder & CEO",
     company: "Ex-Farfetch, Monitor Deloitte",
     image: "/team/gaby.png",
     bio: "",
@@ -42,7 +40,7 @@ const team: TeamMember[] = [
   },
   {
     name: "Aman Jaglan",
-    role: "Co-Founder",
+    role: "Co-Founder & CTO",
     company: "ML Research, Ex-Protiviti",
     image: "/team/aman.png",
     bio: "",
@@ -75,8 +73,8 @@ const features = [
     id: 'observe',
     icon: EyeOutlined,
     label: "Observe",
-    title: "Trajectory Observability & Rewards",
-    tagline: "Understand how your agents are behaving",
+    title: "Observe agent behaviour",
+    tagline: "",
     description: "Capture complete agent trajectories, including actions, tool calls, reasoning steps, and outcomes. These trajectories are evaluated and rewarded, allowing the right behaviours to be reinforced and failures to be identified.",
     color: "#c4a7ff",
     highlights: ["Full trajectory capture", "Automatic evaluation", "Reward signals", "Failure detection"],
@@ -100,16 +98,6 @@ const features = [
     description: "Benchmark models using your trajectories, comparing performance, cost, and efficiency across workflows. Make data-driven decisions about model selection.",
     color: "#c4a7ff",
     highlights: ["Model benchmarking", "Cost analysis", "Performance metrics", "A/B testing"],
-  },
-  {
-    id: 'measure',
-    icon: LineChartOutlined,
-    label: "Measure",
-    title: "Consistency & Efficiency Metrics",
-    tagline: "Monitor how your agents are improving",
-    description: "Track consistency and token efficiency so teams can see how their agents are performing over time with experience. Measure real improvements, not just outputs.",
-    color: "#7dd3fc",
-    highlights: ["Real-time metrics", "Trend analysis", "Token efficiency", "Quality scores"],
   },
 ];
 
@@ -151,7 +139,9 @@ const FeatureShowcase = () => {
               {activeFeature.title}
             </Title>
 
-            <Text className="feature-tagline">{activeFeature.tagline}</Text>
+            {activeFeature.tagline && (
+              <Text className="feature-tagline">{activeFeature.tagline}</Text>
+            )}
 
             <Paragraph className="feature-description">
               {activeFeature.description}
@@ -204,6 +194,10 @@ const FeatureShowcase = () => {
 };
 
 const TeamCarouselCard = ({ member }: { member: TeamMember }) => {
+  const roleParts = member.role.startsWith('Founding ')
+    ? ['Founding', member.role.replace('Founding ', '')]
+    : [member.role];
+
   return (
     <div className="team-card">
       <div className="team-photo">
@@ -218,7 +212,13 @@ const TeamCarouselCard = ({ member }: { member: TeamMember }) => {
         <Title level={4} className="team-card-name">
           {member.name}
         </Title>
-        <Text className="team-card-role">{member.role}</Text>
+        <Text className="team-card-role">
+          {roleParts.map((part) => (
+            <span key={part} className="team-card-role-line">
+              {part}
+            </span>
+          ))}
+        </Text>
         {member.bio && <Paragraph className="team-card-bio">{member.bio}</Paragraph>}
       </div>
     </div>
@@ -227,6 +227,43 @@ const TeamCarouselCard = ({ member }: { member: TeamMember }) => {
 
 export default function HomePage() {
   const [hasScrolled, setHasScrolled] = useState(false);
+  const [submitState, setSubmitState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [submitError, setSubmitError] = useState('');
+
+  const handleContactSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setSubmitState('loading');
+    setSubmitError('');
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const payload = {
+      firstName: String(formData.get('firstName') || ''),
+      lastName: String(formData.get('lastName') || ''),
+      email: String(formData.get('email') || ''),
+      company: String(formData.get('company') || ''),
+      message: String(formData.get('message') || ''),
+    };
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        throw new Error(data.error || 'Submission failed.');
+      }
+
+      form.reset();
+      setSubmitState('success');
+    } catch (error) {
+      setSubmitState('error');
+      setSubmitError(error instanceof Error ? error.message : 'Submission failed.');
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -291,25 +328,23 @@ export default function HomePage() {
               <div className="hero-graphic-overlay" />
               <div className="hero-text-frame">
                 <Title level={1} className="hero-title">
-                  Give Your Agents{' '}
-                  <br />
-                  <span className="hero-title-accent">Work Experience.</span>
+                  Agents you can consistently trust
                 </Title>
 
                 <Paragraph className="hero-subtitle">
-                  We are building the learning layer for AI agents that learn from every interaction, 
-                  accumulating expertise just like humans do.
+                  Observe agent behaviour, evaluate outcomes, and turn every run into a learning that
+                  makes your agents more reliable over time.
                 </Paragraph>
 
                 <Flex gap={16} className="hero-actions">
-                  <Link href="mailto:hello@marshmallo.ai">
+                  <Link href="https://app.marshmallo.ai" target="_blank">
                     <Button type="text" size="large" className="pixel-btn pixel-btn--primary">
-                      Get in Touch
+                      Get Started
                     </Button>
                   </Link>
-                  <Link href="https://docs.marshmallo.ai/" target="_blank">
+                  <Link href="mailto:hello@marshmallo.ai">
                     <Button type="text" size="large" className="pixel-btn pixel-btn--secondary">
-                      Documentation
+                      Get in Touch
                     </Button>
                   </Link>
                 </Flex>
@@ -322,10 +357,9 @@ export default function HomePage() {
         <section className="section section-features">
           <div className="section-inner">
             <div className="section-header">
-              <Text className="section-kicker">Platform Features</Text>
+              <Text className="section-kicker">The Agent Lifecycle with Marlo</Text>
               <Title level={2} className="section-title">
-                Everything you need to build{' '}
-                <span className="text-gradient">learning agents</span>
+                Agents that learn autonomously
               </Title>
             </div>
 
@@ -346,45 +380,85 @@ export default function HomePage() {
                 The Team
               </Title>
               <Paragraph className="section-description">
-                Our founding team brings deep experience across ML research, platform engineering,
-                and enterprise productization at companies like Farfetch, Shopify, Deel, and Razorpay,
-                with open-source leadership and applied AI research.
+                Our founding team brings deep expertise across ML research, platform engineering, and
+                enterprise GTM.
               </Paragraph>
             </div>
           </div>
         </section>
+
+        <div className="section-inner">
+          <div className="team-divider" aria-hidden="true" />
+        </div>
  
-      
-
-        {/* CTA Section */}
-        <section className="section cta-section">
-          <div className="cta-panel">
-            <Flex vertical align="center" gap={32}>
-              <Tag className="pixel-label">Join the waitlist</Tag>
-
-              <Title level={1} className="cta-title">
-                Ready to give your agents{' '}
-                <span className="text-gradient">real work experience?</span>
-                <br />
+        {/* About Section */}
+        <section className="section section-about">
+          <div className="section-inner">
+            <div className="about-layout">
+              <Title level={2} className="section-title">
+                About us
               </Title>
-
-              <Paragraph className="cta-text">
-                Join enterprise teams building the next generation of trusted AI agents. 
+              <Paragraph className="section-description">
+                We are on a mission to make production agents reliable by teaching them how to operate
+                in complex tool environments. We solve the hardest failure mode in agentic systems,
+                tool interaction breakdowns, by turning trajectories into structured and behavioral
+                learnings. We are building a learning layer that helps teams create agents that improve
+                with every interaction while staying safe to deploy.
               </Paragraph>
+            </div>
+          </div>
+        </section>
 
-              <Flex gap={20} wrap="wrap" justify="center" className="cta-actions">
-                <Link href="mailto:hello@marshmallo.ai">
-                  <Button type="text" size="large" className="pixel-btn pixel-btn--cta">
-                    Get in Touch
-                  </Button>
-                </Link>
-                <Link href="https://linkedin.com/company/marshmallo-ai" target="_blank">
-                  <Button type="text" size="large" className="pixel-btn pixel-btn--secondary">
-                    Follow Us
-                  </Button>
-                </Link>
-              </Flex>
-            </Flex>
+
+        {/* Contact Section */}
+        <section className="section contact-section">
+          <div className="section-inner contact-layout">
+            <div className="contact-copy">
+              <Title level={2} className="section-title">
+                Get in touch
+              </Title>
+            </div>
+            <form className="contact-form" onSubmit={handleContactSubmit}>
+              <div className="contact-grid">
+                <label className="contact-field">
+                  <span className="contact-label">First name</span>
+                  <input type="text" name="firstName" className="contact-input" autoComplete="given-name" required />
+                </label>
+                <label className="contact-field">
+                  <span className="contact-label">Last name</span>
+                  <input type="text" name="lastName" className="contact-input" autoComplete="family-name" required />
+                </label>
+                <label className="contact-field">
+                  <span className="contact-label">Email</span>
+                  <input type="email" name="email" className="contact-input" autoComplete="email" required />
+                </label>
+                <label className="contact-field">
+                  <span className="contact-label">Company</span>
+                  <input type="text" name="company" className="contact-input" autoComplete="organization" required />
+                </label>
+                <label className="contact-field contact-field--full">
+                  <span className="contact-label">Message</span>
+                  <textarea name="message" rows={4} className="contact-input contact-textarea" required />
+                </label>
+              </div>
+              <Button
+                type="text"
+                size="large"
+                className="pixel-btn pixel-btn--primary contact-submit"
+                htmlType="submit"
+                disabled={submitState === 'loading'}
+              >
+                {submitState === 'loading' ? 'Sending...' : 'Submit'}
+              </Button>
+              {submitState === 'success' && (
+                <Text className="contact-status">Submitted.</Text>
+              )}
+              {submitState === 'error' && (
+                <Text className="contact-status contact-status--error">
+                  {submitError || 'Something went wrong. Please try again.'}
+                </Text>
+              )}
+            </form>
           </div>
         </section>
       </Content>
