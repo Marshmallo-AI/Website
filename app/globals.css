@@ -292,7 +292,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .section-features .section-header {
-  margin-bottom: 36px;
+  margin-bottom: 0;
+}
+
+.section-features .section-title {
+  margin-top: 0;
+  transform: translateY(-48px);
 }
 
 .section-header--split {
@@ -310,6 +315,10 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 16px;
 }
 
+.section-features .section-kicker {
+  transform: translateY(-48px);
+}
+
 .section-title {
   margin: 0;
   font-size: clamp(28px, 5vw, 48px);
@@ -325,6 +334,17 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.7;
 }
 
+.section-about .section-description {
+  font-size: clamp(16px, 2vw, 20px);
+  color: var(--ink);
+  opacity: 1;
+  margin: 0;
+}
+
+.section-about .ant-typography {
+  color: var(--ink) !important;
+  opacity: 1;
+}
 .text-gradient {
   color: var(--accent);
   text-shadow: 3px 3px 0 rgba(17, 17, 17, 0.2);
@@ -358,6 +378,7 @@ h1, h2, h3, h4, h5, h6 {
   padding: 32px;
   max-width: 460px;
   position: relative;
+  margin-top: -168px;
   z-index: 2;
   color: var(--ink);
 }
@@ -412,7 +433,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .feature-tabs {
-  margin-bottom: 48px;
+  margin: 0 0 24px;
 }
 
 .feature-tab {
@@ -665,12 +686,6 @@ h1, h2, h3, h4, h5, h6 {
   padding: 16px 0;
 }
 
-.team-divider {
-  height: 2px;
-  background: rgba(17, 17, 17, 0.2);
-  margin: 12px 0 0;
-}
-
 .team-card-content {
   display: flex;
   flex-direction: column;
@@ -743,8 +758,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .about-layout {
   display: grid;
-  grid-template-columns: minmax(240px, 0.8fr) minmax(0, 1.2fr);
-  gap: 64px;
+  grid-template-columns: minmax(240px, 0.6fr) minmax(0, 1.4fr);
+  gap: 32px;
   align-items: start;
 }
 
@@ -755,20 +770,39 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0;
 }
 
+.section-about {
+  color: var(--ink);
+  background: var(--bg);
+}
+
+.about-copy {
+  display: grid;
+  gap: 24px;
+}
+
+.section-about .section-description * {
+  color: inherit;
+}
+
+.section-about .ant-typography {
+  color: var(--ink);
+}
+
 .section-about .section-title {
   text-align: left;
 }
 
 
 .contact-section {
-  padding-top: 120px;
+  padding-top: 140px;
   padding-bottom: 120px;
+  background: var(--bg);
 }
 
 .contact-layout {
   display: grid;
   grid-template-columns: minmax(240px, 1fr) minmax(320px, 1.2fr);
-  gap: 48px;
+  gap: 56px;
   align-items: start;
 }
 
@@ -779,8 +813,14 @@ h1, h2, h3, h4, h5, h6 {
   text-shadow: none;
 }
 
+.contact-copy {
+  align-self: start;
+}
+
 .contact-form {
-  background: var(--panel-cream);
+  align-self: start;
+  margin-top: 6px;
+  background: var(--paper);
   border: 3px solid var(--ink);
   box-shadow: 6px 6px 0 var(--shadow);
   padding: 32px;

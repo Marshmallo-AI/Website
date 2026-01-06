@@ -35,7 +35,7 @@ const team: TeamMember[] = [
     company: "Ex-Farfetch, Monitor Deloitte",
     image: "/team/gaby.png",
     bio: "",
-    linkedin: "#",
+    linkedin: "https://www.linkedin.com/in/gaby-haffner-4a006165/",
     twitter: "#",
   },
   {
@@ -44,7 +44,7 @@ const team: TeamMember[] = [
     company: "ML Research, Ex-Protiviti",
     image: "/team/aman.png",
     bio: "",
-    linkedin: "#",
+    linkedin: "https://www.linkedin.com/in/aman-jaglan/",
     twitter: "#",
   },
   {
@@ -53,7 +53,7 @@ const team: TeamMember[] = [
     company: "Shopify, YC-backed Jovian",
     image: "/team/vishnu.png",
     bio: "",
-    linkedin: "#",
+    linkedin: "https://www.linkedin.com/in/vishnuarun/",
     twitter: "#"
   },
   {
@@ -62,7 +62,7 @@ const team: TeamMember[] = [
     company: "Deel, Razorpay, Webpack Core",
     image: "/team/nitin.png",
     bio: "",
-    linkedin: "#",
+    linkedin: "https://www.linkedin.com/in/snitin315/",
     twitter: "#"
   },
 ];
@@ -209,9 +209,11 @@ const TeamCarouselCard = ({ member }: { member: TeamMember }) => {
         />
       </div>
       <div className="team-card-content">
-        <Title level={4} className="team-card-name">
-          {member.name}
-        </Title>
+        <Link href={member.linkedin} target="_blank">
+          <Title level={4} className="team-card-name">
+            {member.name}
+          </Title>
+        </Link>
         <Text className="team-card-role">
           {roleParts.map((part) => (
             <span key={part} className="team-card-role-line">
@@ -342,7 +344,7 @@ export default function HomePage() {
                       Get Started
                     </Button>
                   </Link>
-                  <Link href="mailto:hello@marshmallo.ai">
+                  <Link href="#contact">
                     <Button type="text" size="large" className="pixel-btn pixel-btn--secondary">
                       Get in Touch
                     </Button>
@@ -387,10 +389,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        <div className="section-inner">
-          <div className="team-divider" aria-hidden="true" />
-        </div>
- 
         {/* About Section */}
         <section className="section section-about">
           <div className="section-inner">
@@ -398,20 +396,42 @@ export default function HomePage() {
               <Title level={2} className="section-title">
                 About us
               </Title>
-              <Paragraph className="section-description">
-                We are on a mission to make production agents reliable by teaching them how to operate
-                in complex tool environments. We solve the hardest failure mode in agentic systems,
-                tool interaction breakdowns, by turning trajectories into structured and behavioral
-                learnings. We are building a learning layer that helps teams create agents that improve
-                with every interaction while staying safe to deploy.
-              </Paragraph>
+              <div className="about-copy">
+                <Paragraph className="section-description">
+                  Marshmallo was born out of the frustration that agents cannot be truly trusted in production.
+                </Paragraph>
+                <Paragraph className="section-description">
+                  Today's agents do not learn in production, they repeat mistakes and constantly fail
+                  requiring manual intervention to debug. There is no learning loop tied to their production
+                  behavior.
+                </Paragraph>
+                <Paragraph className="section-description">
+                  For most companies, updating model weights with reinforcement learning is not realistic,
+                  most models are closed-source, and the cost and complexity makes it prohibitive. While
+                  observability tools can tell you what went wrong, they do not turn those failures into
+                  learnings for improvement.
+                </Paragraph>
+                <Paragraph className="section-description">
+                  Marshmallo's infrastructure enables agents to learn and improve autonomously in their
+                  production environment by turning their behaviour, actions and reasoning into structured
+                  learnings whenever performance drops.
+                </Paragraph>
+                <Paragraph className="section-description">
+                  Those learnings feed back directly into the agent, so your agents get more reliable and
+                  cheaper over time.
+                </Paragraph>
+                <Paragraph className="section-description">
+                  So instead of babysitting your agents, you can focus on what you do best: building your
+                  product. Marshmallo ensures your agents keep getting smarter in the background.
+                </Paragraph>
+              </div>
             </div>
           </div>
         </section>
 
 
         {/* Contact Section */}
-        <section className="section contact-section">
+        <section className="section contact-section" id="contact">
           <div className="section-inner contact-layout">
             <div className="contact-copy">
               <Title level={2} className="section-title">
@@ -446,13 +466,14 @@ export default function HomePage() {
                 size="large"
                 className="pixel-btn pixel-btn--primary contact-submit"
                 htmlType="submit"
-                disabled={submitState === 'loading'}
+                disabled={submitState === 'loading' || submitState === 'success'}
               >
-                {submitState === 'loading' ? 'Sending...' : 'Submit'}
+                {submitState === 'loading'
+                  ? 'Sending...'
+                  : submitState === 'success'
+                    ? 'Submitted!'
+                    : 'Submit'}
               </Button>
-              {submitState === 'success' && (
-                <Text className="contact-status">Submitted.</Text>
-              )}
               {submitState === 'error' && (
                 <Text className="contact-status contact-status--error">
                   {submitError || 'Something went wrong. Please try again.'}
