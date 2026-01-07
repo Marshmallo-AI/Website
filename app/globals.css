@@ -133,11 +133,12 @@ h1, h2, h3, h4, h5, h6 {
   position: sticky;
   top: 0;
   z-index: 50;
-  padding: 16px 24px;
-  background: rgba(246, 241, 222, 0.92);
+  padding: 8px 24px;
+  background: rgba(246, 241, 222, 0.95);
   isolation: isolate;
   backdrop-filter: blur(6px);
   transition: box-shadow 0.3s ease;
+  border-bottom: 2px solid var(--ink);
 }
 
 .navbar::before {
@@ -162,11 +163,11 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0;
   background: transparent;
   border: none;
   box-shadow: none;
-  padding: 12px 0;
+  padding: 4px 0;
 }
 
 .navbar-row {
@@ -176,16 +177,16 @@ h1, h2, h3, h4, h5, h6 {
 .brand-card {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  padding: 6px 8px;
+  gap: 10px;
+  padding: 2px 0;
   background: transparent;
   border: none;
   box-shadow: none;
 }
 
 .brand-avatar {
-  width: 80px;
-  height: 80px;
+  width: 48px;
+  height: 48px;
   display: grid;
   place-items: center;
   background: transparent;
@@ -1051,5 +1052,50 @@ h1, h2, h3, h4, h5, h6 {
   .contact-submit {
     width: 100%;
     justify-self: stretch;
+  }
+}
+
+/* Content Box Styles */
+.content-box {
+  background: var(--paper);
+  border: 3px solid var(--ink);
+  box-shadow: 8px 8px 0 var(--shadow);
+  padding: 48px;
+  position: relative;
+}
+
+.content-box::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 12px;
+  height: 12px;
+  background: var(--accent);
+  border: 2px solid var(--ink);
+}
+
+.content-box::after {
+  content: '';
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 12px;
+  height: 12px;
+  background: var(--accent);
+  border: 2px solid var(--ink);
+}
+
+/* Contact box styling */
+.contact-box .contact-form {
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  background: transparent;
+}
+
+@media (max-width: 768px) {
+  .content-box {
+    padding: 32px 24px;
   }
 }

@@ -25,10 +25,10 @@ export async function POST(request: Request) {
     }
 
     const apiKey = process.env.RESEND_API_KEY;
-    const from = process.env.RESEND_FROM;
-    const to = process.env.RESEND_TO || 'gaby@marshmallo.ai';
+    const from = process.env.RESEND_FROM || 'onboarding@resend.dev';
+    const to = process.env.RESEND_TO || 'aman@marshmallo.ai';
 
-    if (!apiKey || !from) {
+    if (!apiKey) {
       return NextResponse.json({ error: 'Email service not configured.' }, { status: 500 });
     }
 

@@ -300,11 +300,11 @@ export default function HomePage() {
           <Flex justify="space-between" align="center" className="navbar-row">
             <Link href="/" className="brand-card">
               <span className="brand-avatar">
-                <Image 
-                  src="/logo.png" 
-                  alt="Marshmallo" 
-                  width={64} 
-                  height={64}
+                <Image
+                  src="/logo.png"
+                  alt="Marshmallo"
+                  width={48}
+                  height={48}
                   className="brand-image"
                 />
               </span>
@@ -370,60 +370,66 @@ export default function HomePage() {
         </section>
 
         {/* Team Section */}
-        <section className="section section-team">
-          <div className="section-inner team-layout">
-            <div className="team-grid">
-              {team.map((member) => (
-                <TeamCarouselCard key={member.name} member={member} />
-              ))}
-            </div>
-            <div className="team-aside">
-              <Title level={2} className="section-title">
-                The Team
-              </Title>
-              <Paragraph className="section-description">
-                Our founding team brings deep expertise across ML research, platform engineering, and
-                enterprise GTM.
-              </Paragraph>
+        <section className="section section-team" id="team">
+          <div className="section-inner">
+            <div className="content-box">
+              <div className="team-layout">
+                <div className="team-grid">
+                  {team.map((member) => (
+                    <TeamCarouselCard key={member.name} member={member} />
+                  ))}
+                </div>
+                <div className="team-aside">
+                  <Title level={2} className="section-title">
+                    The Team
+                  </Title>
+                  <Paragraph className="section-description">
+                    Our founding team brings deep expertise across ML research, platform engineering, and
+                    enterprise GTM.
+                  </Paragraph>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
         {/* About Section */}
-        <section className="section section-about">
+        <section className="section section-about" id="about">
           <div className="section-inner">
-            <div className="about-layout">
-              <Title level={2} className="section-title">
-                About us
-              </Title>
-              <div className="about-copy">
-                <Paragraph className="section-description">
-                  Marshmallo was born out of the frustration that agents cannot be truly trusted in production.
-                </Paragraph>
-                <Paragraph className="section-description">
-                  Today's agents do not learn in production, they repeat mistakes and constantly fail
-                  requiring manual intervention to debug. There is no learning loop tied to their production
-                  behavior.
-                </Paragraph>
-                <Paragraph className="section-description">
-                  For most companies, updating model weights with reinforcement learning is not realistic,
-                  most models are closed-source, and the cost and complexity makes it prohibitive. While
-                  observability tools can tell you what went wrong, they do not turn those failures into
-                  learnings for improvement.
-                </Paragraph>
-                <Paragraph className="section-description">
-                  Marshmallo's infrastructure enables agents to learn and improve autonomously in their
-                  production environment by turning their behaviour, actions and reasoning into structured
-                  learnings whenever performance drops.
-                </Paragraph>
-                <Paragraph className="section-description">
-                  Those learnings feed back directly into the agent, so your agents get more reliable and
-                  cheaper over time.
-                </Paragraph>
-                <Paragraph className="section-description">
-                  So instead of babysitting your agents, you can focus on what you do best: building your
-                  product. Marshmallo ensures your agents keep getting smarter in the background.
-                </Paragraph>
+            <div className="content-box">
+              <div className="about-layout">
+                <Title level={2} className="section-title">
+                  About us
+                </Title>
+                <div className="about-copy">
+                  <Paragraph className="section-description">
+                    Marshmallo was born out of the frustration that agents cannot be truly trusted in production.
+                  </Paragraph>
+                  <Paragraph className="section-description">
+                    Today&apos;s agents do not learn in production, they repeat mistakes and constantly fail
+                    requiring manual intervention to debug. There is no learning loop tied to their production
+                    behavior.
+                  </Paragraph>
+                  <Paragraph className="section-description">
+                    For most companies, updating model weights with reinforcement learning is not realistic,
+                    most models are closed-source, and the cost and complexity makes it prohibitive. While
+                    observability tools can tell you what went wrong, they do not turn those failures into
+                    learnings for improvement.
+                  </Paragraph>
+                  <Paragraph className="section-description">
+                    Marshmallo&apos;s infrastructure enables agents to learn and improve autonomously in their
+                    production environment by turning their behaviour, actions and reasoning into structured
+                    learnings whenever performance drops.
+                  </Paragraph>
+                  <Paragraph className="section-description">
+                    Those learnings feed back directly into the agent, so your agents get more reliable and
+                    cheaper over time.
+                  </Paragraph>
+                  <Paragraph className="section-description">
+                    So instead of babysitting your agents, you can focus on what you do best: building your
+                    product. Marshmallo ensures your agents keep getting smarter in the background.
+                  </Paragraph>
+                </div>
               </div>
             </div>
           </div>
@@ -432,54 +438,58 @@ export default function HomePage() {
 
         {/* Contact Section */}
         <section className="section contact-section" id="contact">
-          <div className="section-inner contact-layout">
-            <div className="contact-copy">
-              <Title level={2} className="section-title">
-                Get in touch
-              </Title>
-            </div>
-            <form className="contact-form" onSubmit={handleContactSubmit}>
-              <div className="contact-grid">
-                <label className="contact-field">
-                  <span className="contact-label">First name</span>
-                  <input type="text" name="firstName" className="contact-input" autoComplete="given-name" required />
-                </label>
-                <label className="contact-field">
-                  <span className="contact-label">Last name</span>
-                  <input type="text" name="lastName" className="contact-input" autoComplete="family-name" required />
-                </label>
-                <label className="contact-field">
-                  <span className="contact-label">Email</span>
-                  <input type="email" name="email" className="contact-input" autoComplete="email" required />
-                </label>
-                <label className="contact-field">
-                  <span className="contact-label">Company</span>
-                  <input type="text" name="company" className="contact-input" autoComplete="organization" required />
-                </label>
-                <label className="contact-field contact-field--full">
-                  <span className="contact-label">Message</span>
-                  <textarea name="message" rows={4} className="contact-input contact-textarea" required />
-                </label>
+          <div className="section-inner">
+            <div className="content-box contact-box">
+              <div className="contact-layout">
+                <div className="contact-copy">
+                  <Title level={2} className="section-title">
+                    Get in touch
+                  </Title>
+                </div>
+                <form className="contact-form" onSubmit={handleContactSubmit}>
+                  <div className="contact-grid">
+                    <label className="contact-field">
+                      <span className="contact-label">First name</span>
+                      <input type="text" name="firstName" className="contact-input" autoComplete="given-name" required />
+                    </label>
+                    <label className="contact-field">
+                      <span className="contact-label">Last name</span>
+                      <input type="text" name="lastName" className="contact-input" autoComplete="family-name" required />
+                    </label>
+                    <label className="contact-field">
+                      <span className="contact-label">Email</span>
+                      <input type="email" name="email" className="contact-input" autoComplete="email" required />
+                    </label>
+                    <label className="contact-field">
+                      <span className="contact-label">Company</span>
+                      <input type="text" name="company" className="contact-input" autoComplete="organization" required />
+                    </label>
+                    <label className="contact-field contact-field--full">
+                      <span className="contact-label">Message</span>
+                      <textarea name="message" rows={4} className="contact-input contact-textarea" required />
+                    </label>
+                  </div>
+                  <Button
+                    type="text"
+                    size="large"
+                    className="pixel-btn pixel-btn--primary contact-submit"
+                    htmlType="submit"
+                    disabled={submitState === 'loading' || submitState === 'success'}
+                  >
+                    {submitState === 'loading'
+                      ? 'Sending...'
+                      : submitState === 'success'
+                        ? 'Submitted!'
+                        : 'Submit'}
+                  </Button>
+                  {submitState === 'error' && (
+                    <Text className="contact-status contact-status--error">
+                      {submitError || 'Something went wrong. Please try again.'}
+                    </Text>
+                  )}
+                </form>
               </div>
-              <Button
-                type="text"
-                size="large"
-                className="pixel-btn pixel-btn--primary contact-submit"
-                htmlType="submit"
-                disabled={submitState === 'loading' || submitState === 'success'}
-              >
-                {submitState === 'loading'
-                  ? 'Sending...'
-                  : submitState === 'success'
-                    ? 'Submitted!'
-                    : 'Submit'}
-              </Button>
-              {submitState === 'error' && (
-                <Text className="contact-status contact-status--error">
-                  {submitError || 'Something went wrong. Please try again.'}
-                </Text>
-              )}
-            </form>
+            </div>
           </div>
         </section>
       </Content>
