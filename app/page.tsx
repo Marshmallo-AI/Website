@@ -303,8 +303,8 @@ export default function HomePage() {
                 <Image 
                   src="/logo.png" 
                   alt="Marshmallo" 
-                  width={44} 
-                  height={44}
+                  width={64} 
+                  height={64}
                   className="brand-image"
                 />
               </span>
