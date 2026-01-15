@@ -350,10 +350,6 @@ export default function HomePage() {
                     </Button>
                   </Link>
                 </Flex>
-
-                <Text className="hero-beta-notice">
-                  Marlo is currently in beta. For early access, <Link href="#contact" className="hero-beta-link">reach out</Link>
-                </Text>
               </div>
             </div>
           </div>
