@@ -413,6 +413,24 @@ h1, h2, h3, h4, h5, h6 {
   gap: 16px;
 }
 
+.hero-beta-notice {
+  display: block;
+  margin-top: 20px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.hero-beta-link {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s ease;
+}
+
+.hero-beta-link:hover {
+  color: var(--ink);
+}
+
 .hero-graphic {
   position: relative;
   min-height: 660px;
