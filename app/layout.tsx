@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: 'Marshmallo | Agents That Learn From Experience',
   description: 'Enterprise AI infrastructure that enables agents to learn from every interaction. Build trusted, consistent, and efficient AI systems in production.',
   keywords: ['AI agents', 'machine learning', 'agent learning', 'LLM', 'enterprise AI', 'continual learning'],
-  authors: [{ name: 'Marshmallo AI' }],
+  authors: [{ name: 'Marshmallo' }],
   icons: {
     icon: '/favicon.png',
     shortcut: '/favicon.png',

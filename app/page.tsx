@@ -309,7 +309,7 @@ export default function HomePage() {
                 />
               </span>
               <Text strong className="brand-name">
-                Marshmallo AI
+                Marshmallo
               </Text>
             </Link>
             <Link href="https://docs.marshmallo.ai/" target="_blank">
@@ -328,28 +328,36 @@ export default function HomePage() {
           <div className="section-inner hero-wrapper">
             <div className="hero-graphic">
               <div className="hero-graphic-overlay" />
-              <div className="hero-text-frame">
-                <Title level={1} className="hero-title">
-                  Agents you can consistently trust
-                </Title>
+              <div className="hero-copy-stack">
+                <div className="hero-text-frame">
+                  <Title level={1} className="hero-title">
+                    Agents you can consistently trust
+                  </Title>
 
-                <Paragraph className="hero-subtitle">
-                  Observe agent behaviour, evaluate outcomes, and turn every run into a learning that
-                  makes your agents more reliable over time.
-                </Paragraph>
+                  <Paragraph className="hero-subtitle">
+                    Observe agent behaviour, evaluate outcomes, and turn every run into a learning that
+                    makes your agents more reliable over time.
+                  </Paragraph>
 
-                <Flex gap={16} className="hero-actions">
-                  <Link href="https://app.marshmallo.ai" target="_blank">
-                    <Button type="text" size="large" className="pixel-btn pixel-btn--primary">
-                      Get Started
-                    </Button>
-                  </Link>
-                  <Link href="#contact">
-                    <Button type="text" size="large" className="pixel-btn pixel-btn--secondary">
-                      Get in Touch
-                    </Button>
-                  </Link>
-                </Flex>
+                  <Flex gap={16} className="hero-actions">
+                    <Link href="https://app.marshmallo.ai" target="_blank">
+                      <Button type="text" size="large" className="pixel-btn pixel-btn--primary">
+                        Get Started
+                      </Button>
+                    </Link>
+                    <Link href="#contact">
+                      <Button type="text" size="large" className="pixel-btn pixel-btn--secondary">
+                        Get in Touch
+                      </Button>
+                    </Link>
+                  </Flex>
+                </div>
+                <div className="beta-note-box">
+                  <Text className="beta-note">
+                    N.B. We are currently in private beta for access to our product please email:{' '}
+                    <a href="mailto:hello@marshmallo.ai">hello@marshmallo.ai</a>
+                  </Text>
+                </div>
               </div>
             </div>
           </div>
@@ -403,31 +411,46 @@ export default function HomePage() {
                 </Title>
                 <div className="about-copy">
                   <Paragraph className="section-description">
-                    Marshmallo was born out of the frustration that agents cannot be truly trusted in production.
+                    <strong>
+                      Marshmallo was born out of the frustration that agents cannot be trusted in production.
+                    </strong>
                   </Paragraph>
                   <Paragraph className="section-description">
-                    Today&apos;s agents do not learn in production, they repeat mistakes and constantly fail
-                    requiring manual intervention to debug. There is no learning loop tied to their production
-                    behavior.
+                    Today&apos;s agents fail frequently. They select incorrect tools, follow inconsistent reasoning
+                    paths, and hallucinate. These failures are hard to diagnose, evidence is fragmented across
+                    logs, prompts, and tool calls, making root-cause analysis slow and manual. As a result,
+                    agents are expensive to operate at scale, requiring teams to devote significant engineering
+                    effort to monitoring, debugging, and maintaining agent behavior.
                   </Paragraph>
                   <Paragraph className="section-description">
-                    For most companies, updating model weights with reinforcement learning is not realistic,
-                    most models are closed-source, and the cost and complexity makes it prohibitive. While
-                    observability tools can tell you what went wrong, they do not turn those failures into
-                    learnings for improvement.
+                    For most companies, updating model weights with reinforcement learning is not realistic.
+                    Models are often closed-source, and the cost and complexity makes it prohibitive. While
+                    existing observability and AgentOps tools can tell you what went wrong, they cannot prevent
+                    agents from repeating those same mistakes.
                   </Paragraph>
                   <Paragraph className="section-description">
-                    Marshmallo&apos;s infrastructure enables agents to learn and improve autonomously in their
-                    production environment by turning their behaviour, actions and reasoning into structured
-                    learnings whenever performance drops.
+                    <strong>
+                      Marshmallo&apos;s infrastructure enables agents to learn and improve autonomously in their
+                      production environment.
+                    </strong>
                   </Paragraph>
                   <Paragraph className="section-description">
-                    Those learnings feed back directly into the agent, so your agents get more reliable and
-                    cheaper over time.
+                    We add an autonomous learning loop to your existing agent. The platform records what the
+                    agent did from input to output, the tools called, interactions, and reasoning, and our reward
+                    system scores the agent&apos;s performance against the intended outcome. When the agent
+                    underperforms, our learning system converts the reward score and rationale into lessons
+                    that are automatically deployed back into the agent.
                   </Paragraph>
                   <Paragraph className="section-description">
-                    So instead of babysitting your agents, you can focus on what you do best: building your
-                    product. Marshmallo ensures your agents keep getting smarter in the background.
+                    Marshmallo closes the loop between observability and improvement through four stages: we
+                    observe the full lifecycle of each task, evaluate each output with our LLM-as-judge scoring
+                    system, learn by converting scores and rationales into structured lessons, and deploy those
+                    lessons directly into the agent&apos;s context.
+                  </Paragraph>
+                  <Paragraph className="section-description">
+                    Those learnings feed back continuously, so your agents get more reliable and cheaper over
+                    time. <strong>Instead of babysitting your agents, you can focus on what you do best:
+                    building your product.</strong>
                   </Paragraph>
                 </div>
               </div>
@@ -500,7 +523,7 @@ export default function HomePage() {
           <div className="footer-divider" aria-hidden="true" />
           <div className="footer-box">
             <Text className="footer-text">
-              © 2025 Marshmallo AI. All rights reserved.
+              © 2025 Marshmallo. All rights reserved.
             </Text>
           </div>
         </div>

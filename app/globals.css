@@ -372,12 +372,21 @@ h1, h2, h3, h4, h5, h6 {
   grid-template-columns: 1fr;
 }
 
+.hero-copy-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  max-width: 460px;
+}
+
 .hero-text-frame {
   background: var(--panel-cream);
   border: 3px solid var(--ink);
   box-shadow: 6px 6px 0 var(--shadow);
   padding: 32px;
-  max-width: 460px;
+  width: 100%;
   position: relative;
   margin-top: -168px;
   z-index: 2;
@@ -411,6 +420,29 @@ h1, h2, h3, h4, h5, h6 {
 .hero-actions {
   justify-content: flex-start;
   gap: 16px;
+}
+
+.beta-note-box {
+  background: var(--panel-cream);
+  border: 2px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--shadow);
+  padding: 12px 32px;
+  max-width: 460px;
+  width: 100%;
+}
+
+.beta-note {
+  display: block;
+  color: rgba(17, 17, 17, 0.7) !important;
+  font-family: inherit;
+  font-size: 10px;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.beta-note a {
+  color: inherit;
+  text-decoration: underline;
 }
 
 .hero-graphic {
