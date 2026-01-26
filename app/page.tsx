@@ -371,30 +371,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Team Section */}
-        <section className="section section-team" id="team">
-          <div className="section-inner">
-            <div className="content-box">
-              <div className="team-layout">
-                <div className="team-grid">
-                  {team.map((member) => (
-                    <TeamCarouselCard key={member.name} member={member} />
-                  ))}
-                </div>
-                <div className="team-aside">
-                  <Title level={2} className="section-title">
-                    The Team
-                  </Title>
-                  <Paragraph className="section-description">
-                    Our founding team brings deep expertise across ML research, platform engineering, and
-                    enterprise GTM.
-                  </Paragraph>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* About Section */}
         <section className="section section-about" id="about">
           <div className="section-inner">
