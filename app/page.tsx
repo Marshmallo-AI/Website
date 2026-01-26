@@ -342,7 +342,7 @@ export default function HomePage() {
                   <Flex gap={16} className="hero-actions">
                     <Link href="https://app.marshmallo.ai" target="_blank">
                       <Button type="text" size="large" className="pixel-btn pixel-btn--primary">
-                        Get Started
+                        Wrap Agent
                       </Button>
                     </Link>
                     <Link href="#contact">
@@ -351,12 +351,6 @@ export default function HomePage() {
                       </Button>
                     </Link>
                   </Flex>
-                </div>
-                <div className="beta-note-box">
-                  <Text className="beta-note">
-                    N.B. We are currently in private beta for access to our product please email:{' '}
-                    <a href="mailto:hello@marshmallo.ai">hello@marshmallo.ai</a>
-                  </Text>
                 </div>
               </div>
             </div>
