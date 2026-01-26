@@ -416,17 +416,9 @@ export default function HomePage() {
                     </strong>
                   </Paragraph>
                   <Paragraph className="section-description">
-                    Today&apos;s agents fail frequently. They select incorrect tools, follow inconsistent reasoning
-                    paths, and hallucinate. These failures are hard to diagnose, evidence is fragmented across
-                    logs, prompts, and tool calls, making root-cause analysis slow and manual. As a result,
-                    agents are expensive to operate at scale, requiring teams to devote significant engineering
-                    effort to monitoring, debugging, and maintaining agent behavior.
-                  </Paragraph>
-                  <Paragraph className="section-description">
-                    For most companies, updating model weights with reinforcement learning is not realistic.
-                    Models are often closed-source, and the cost and complexity makes it prohibitive. While
-                    existing observability and AgentOps tools can tell you what went wrong, they cannot prevent
-                    agents from repeating those same mistakes.
+                    It&apos;s never been easier to build and ship agents but it&apos;s still painfully hard to make
+                    them reliably good and keep them getting better. Today, teams glue together observability
+                    dashboards, eval harnesses, and manual review processes.
                   </Paragraph>
                   <Paragraph className="section-description">
                     <strong>
@@ -437,18 +429,20 @@ export default function HomePage() {
                   <Paragraph className="section-description">
                     We add an autonomous learning loop to your existing agent. The platform records what the
                     agent did from input to output, the tools called, interactions, and reasoning, and our reward
-                    system scores the agent&apos;s performance against the intended outcome. When the agent
+                    system scores the agent&apos;s performance against the intended outcome, in its production
+                    environment. When the agent
                     underperforms, our learning system converts the reward score and rationale into lessons
                     that are automatically deployed back into the agent.
                   </Paragraph>
                   <Paragraph className="section-description">
                     Marshmallo closes the loop between observability and improvement through four stages: we
                     observe the full lifecycle of each task, evaluate each output with our LLM-as-judge scoring
-                    system, learn by converting scores and rationales into structured lessons, and deploy those
-                    lessons directly into the agent&apos;s context.
+                    system, learn by converting scores and rationales into lessons, and deploy those lessons
+                    directly into the agent&apos;s context. Creating a dynamically evolving context, where we are
+                    able to learn what &quot;good&quot; means for your specific production environment at inference time.
                   </Paragraph>
                   <Paragraph className="section-description">
-                    Those learnings feed back continuously, so your agents get more reliable and cheaper over
+                    Our learnings feed back continuously, so your agents get more reliable and cheaper over
                     time. <strong>Instead of babysitting your agents, you can focus on what you do best:
                     building your product.</strong>
                   </Paragraph>
