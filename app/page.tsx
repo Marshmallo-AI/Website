@@ -9,10 +9,11 @@ import {
   Flex,
   Layout,
 } from 'antd';
-import { 
+import {
   EyeOutlined,
   EditOutlined,
-  ExperimentOutlined
+  ExperimentOutlined,
+  GithubOutlined
 } from '@ant-design/icons';
 
 const { Title, Text, Paragraph } = Typography;
@@ -312,11 +313,18 @@ export default function HomePage() {
                 Marshmallo
               </Text>
             </Link>
-            <Link href="https://docs.marshmallo.ai/" target="_blank">
-              <Button type="text" className="pixel-btn pixel-btn--ghost">
-                Docs
-              </Button>
-            </Link>
+            <Flex gap={8} align="center">
+              <Link href="https://docs.marshmallo.ai/" target="_blank">
+                <Button type="text" className="pixel-btn pixel-btn--ghost">
+                  Docs
+                </Button>
+              </Link>
+              <Link href="https://github.com/Marshmallo-AI" target="_blank">
+                <Button type="text" className="pixel-btn pixel-btn--ghost" icon={<GithubOutlined />}>
+                  GitHub
+                </Button>
+              </Link>
+            </Flex>
           </Flex>
         </div>
       </Header>
