@@ -345,7 +345,7 @@ export default function HomePage() {
                   <Flex gap={16} className="hero-actions">
                     <Link href="https://app.marshmallo.ai" target="_blank">
                       <Button type="text" size="large" className="pixel-btn pixel-btn--primary">
-                        Hello
+                        Wrap Agent
                       </Button>
                     </Link>
                     <Link href="#contact">
