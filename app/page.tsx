@@ -319,11 +319,6 @@ export default function HomePage() {
                   Docs
                 </Button>
               </Link>
-              <Link href="https://github.com/Marshmallo-AI" target="_blank">
-                <Button type="text" className="pixel-btn pixel-btn--ghost" icon={<GithubOutlined />}>
-                  GitHub
-                </Button>
-              </Link>
             </Flex>
           </Flex>
         </div>
@@ -350,7 +345,7 @@ export default function HomePage() {
                   <Flex gap={16} className="hero-actions">
                     <Link href="https://app.marshmallo.ai" target="_blank">
                       <Button type="text" size="large" className="pixel-btn pixel-btn--primary">
-                        Wrap Agent
+                        Hello
                       </Button>
                     </Link>
                     <Link href="#contact">
@@ -495,7 +490,7 @@ export default function HomePage() {
           <div className="footer-divider" aria-hidden="true" />
           <div className="footer-box">
             <Text className="footer-text">
-              © 2025 Marshmallo. All rights reserved.
+              © 2026 Cenyra Inc. d/b/a Marshmallo AI. All rights reserved.
             </Text>
           </div>
         </div>

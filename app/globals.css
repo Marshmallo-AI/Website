@@ -943,7 +943,7 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--paper);
   border: 2px solid var(--ink);
   box-shadow: 4px 4px 0 var(--shadow);
-  padding: 16px;
+  padding: 20px 24px;
 }
 
 .footer-box::before,
@@ -968,6 +968,8 @@ h1, h2, h3, h4, h5, h6 {
 .footer-text {
   color: var(--ink);
   font-size: 13px;
+  letter-spacing: 0.6px;
+  line-height: 1.5;
 }
 
 .site-footer .ant-typography {
